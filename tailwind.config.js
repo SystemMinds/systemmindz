@@ -15,6 +15,15 @@ module.exports = {
       fontFamily: {
         oswald: ['Oswald', 'sans-serif'],
         montserrat: ['Montserrat', 'sans-serif'],
+        space: ['"Space Grotesk"', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
+        syne: ['Syne', 'sans-serif'],
+        cinzel: ['Cinzel', 'serif'],
+        playfair: ['"Playfair Display"', 'serif'],
+        marker: ['"Permanent Marker"', 'cursive'],
+        rock: ['"Rock Salt"', 'cursive'],
+        bodoni: ['"Bodoni Moda"', 'serif'],
+        abril: ['"Abril Fatface"', 'serif'],
       },
       maxWidth: {
         '1920': '1920px',
