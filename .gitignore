@@ -14,7 +14,7 @@ node_modules/
 # Vite cache
 .vite/
 
-# Submodule / other project folders (not part of New_UI push)
+# Other project folders (not part of this UI push)
 AdminBackend/
 AdminFrontend/
 AntiGravity/
@@ -23,6 +23,7 @@ CandidateBackend/
 CandidateFrontend/
 CandidateTest/
 KareerGrowth/
+New_UI/
 StreamingAi/
 SuperadminBackend/
 SuperadminFrontend/
