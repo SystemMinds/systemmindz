@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Instagram, Facebook, Linkedin, Github } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Team = () => {
     const teamMembers = [
@@ -71,18 +72,19 @@ const Team = () => {
                             </motion.div>
                         </div>
 
-                        <motion.button 
+                        <motion.div
                             initial={{ opacity: 0, scale: 0.8 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.4 }}
-                            className="group relative flex items-center gap-7 bg-orange-500 rounded-full pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500"
                         >
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-black">Read More</span>
-                            <div className="w-11 h-11 bg-black rounded-full flex items-center justify-center text-white transition-all duration-500 group-hover:bg-orange-500">
-                                <ArrowRight size={18} />
-                            </div>
-                        </motion.button>
+                            <Link to="/our-clients" className="group relative flex items-center gap-7 bg-orange-500 rounded-full pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500">
+                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-black">Read More</span>
+                                <div className="w-11 h-11 bg-black rounded-full flex items-center justify-center text-white transition-all duration-500 group-hover:bg-orange-500">
+                                    <ArrowRight size={18} />
+                                </div>
+                            </Link>
+                        </motion.div>
 
                         <motion.div 
                             initial={{ opacity: 0 }}
@@ -117,9 +119,9 @@ const Team = () => {
                                         
                                         <div className="flex gap-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-200">
                                             {member.socials.map((icon, idx) => (
-                                                <div key={idx} className="text-white hover:text-orange-500 transition-colors">
+                                                <a key={idx} href="/contact" className="text-white hover:text-orange-500 transition-colors">
                                                     {icon}
-                                                </div>
+                                                </a>
                                             ))}
                                         </div>
                                     </div>

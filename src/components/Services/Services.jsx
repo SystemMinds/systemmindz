@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import Polytope from '@components/Polytope/Polytope';
 
 const Services = () => {
+    const navigate = useNavigate();
     const services = [
         { 
             title: "Branding and Identity Design",
@@ -91,36 +93,38 @@ const Services = () => {
                             <span className="font-extrabold">For Your</span> <span className="font-thin text-white/30 ml-4">Business.</span>
                         </motion.h2>
 
-                        {/* Orange Pill Button - Scaled Down */}
-                        <motion.button 
+                        {/* Orange Pill Button → /services */}
+                        <motion.div
                             initial={{ opacity: 0, scale: 0.8 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.6 }}
-                            className="group relative flex items-center gap-4 md:gap-6 bg-orange-500 rounded-full pl-5 md:pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500"
                         >
-                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-black">What we do</span>
-                            <div className="w-8 h-8 md:w-10 md:h-10 bg-black rounded-full flex items-center justify-center text-white transition-all duration-500 group-hover:rotate-45">
-                                <ArrowRight size={16} />
-                            </div>
-                        </motion.button>
+                            <Link to="/services" className="group relative flex items-center gap-4 md:gap-6 bg-orange-500 rounded-full pl-5 md:pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500">
+                                <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-black">What we do</span>
+                                <div className="w-8 h-8 md:w-10 md:h-10 bg-black rounded-full flex items-center justify-center text-white transition-all duration-500 group-hover:rotate-45">
+                                    <ArrowRight size={16} />
+                                </div>
+                            </Link>
+                        </motion.div>
                     </div>
                 </div>
 
                 {/* Services Grid (4 Columns with Enclosed Row) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-x border-t border-white/40 mt-20">
                     {services.map((service, index) => (
-                        <motion.div 
+                        <motion.div
                             key={index}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.2 * index }}
                             className={`group relative p-8 py-16 h-[380px] flex flex-col justify-between border-white/40 overflow-hidden
-                                ${index % 4 !== 3 ? 'lg:border-r' : ''} 
+                                ${index % 4 !== 3 ? 'lg:border-r' : ''}
                                 ${index % 2 === 0 ? 'md:border-r' : ''}
-                                transition-all duration-500`
+                                transition-all duration-500 cursor-pointer`
                             }
+                            onClick={() => navigate('/services')}
                         >
                             {/* Orange Hover Top Line - 100% Reliable Trigger */}
                             <motion.div 

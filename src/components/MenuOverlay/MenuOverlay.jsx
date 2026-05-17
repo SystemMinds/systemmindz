@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Polytope from '../Polytope/Polytope';
 
 const MenuOverlay = ({ isOpen, onClose }) => {
+  const { pathname } = useLocation();
+  const [hovered, setHovered] = useState(null);
   const menuVariants = {
     closed: { 
       clipPath: 'circle(0% at 95% 5%)',
@@ -31,11 +33,12 @@ const MenuOverlay = ({ isOpen, onClose }) => {
   };
 
   const navItems = [
-    { name: 'Homepage', color: 'text-orange-500', active: true },
-    { name: 'Portfolio', color: 'text-white/90' },
-    { name: 'Services', color: 'text-white/90' },
-    { name: 'Newsletter', color: 'text-white/90' },
-    { name: 'Other pages', color: 'text-white/90' },
+    { name: 'Homepage',    to: '/'            },
+    { name: 'Portfolio',   to: '/portfolio'   },
+    { name: 'Services',    to: '/services'    },
+    { name: 'Projects',    to: '/projects'    },
+    { name: 'Our Clients', to: '/our-clients' },
+    { name: 'Contact',     to: '/contact'     },
   ];
 
   return (
@@ -49,105 +52,104 @@ const MenuOverlay = ({ isOpen, onClose }) => {
           className="fixed inset-0 z-[100] bg-black text-white flex flex-col overflow-y-auto"
         >
 
-          {/* Header - Matching Navbar padding exactly */}
-          <div className="w-full px-6 sm:px-10 lg:pl-32 xl:pl-48 py-16 flex items-center justify-between xl:pr-32 relative z-20 bg-black">
-            <div className="text-3xl font-bold tracking-tighter select-none">A.</div>
-            <button 
+          {/* Header */}
+          <div className="w-full px-6 sm:px-10 lg:pl-32 xl:pl-48 py-8 flex items-center justify-between xl:pr-32 relative z-20 shrink-0">
+            <Link to="/" onClick={onClose} className="text-xl font-bold text-white select-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>SystemMindz</Link>
+            <button
               onClick={onClose}
               className="text-white flex flex-col items-center justify-center p-2"
               aria-label="Close menu"
             >
-              <X size={36} strokeWidth={1} />
+              <X size={30} strokeWidth={1} />
             </button>
           </div>
 
-          {/* Main Layout Grid - Centered Vertically */}
-          <div className="flex-1 flex flex-col lg:flex-row items-center px-6 sm:px-10 lg:pl-44 xl:pl-64 relative z-10 h-full">
-            
-            {/* Left Nav Column - Centered horizontally and slightly top of vertical center */}
-            <div className="w-full lg:w-[38%] flex flex-col items-center lg:items-center justify-start mb-20 lg:mb-0 h-full pt-[18vh]">
-                <div className="flex flex-col gap-4 lg:gap-6 text-center lg:text-left">
-                    {navItems.map((item, i) => (
-                        <div key={item.name} className="overflow-hidden">
-                            <motion.div 
-                                custom={i} 
-                                variants={linkVariants}
-                                className="inline-block"
-                            >
-                                <Link 
-                                    to="#" 
-                                    onClick={onClose}
-                                    className={`text-[24px] md:text-[30px] lg:text-[36px] leading-[1.2] font-bold tracking-tighter hover:italic transition-all duration-300 block ${item.color}`}
-                                >
-                                    {item.name}
-                                </Link>
-                            </motion.div>
-                        </div>
-                    ))}
-                </div>
+          {/* Main Layout */}
+          <div className="flex-1 flex flex-col lg:flex-row items-stretch px-6 sm:px-10 lg:pl-32 xl:pl-48 xl:pr-32 min-h-0">
+
+            {/* Left Nav Column */}
+            <div className="w-full lg:w-[36%] flex flex-col justify-center py-8 lg:py-0 lg:pr-12">
+              <div className="flex flex-col gap-2 lg:gap-3">
+                {navItems.map((item, i) => {
+                  const isActive = pathname === item.to;
+                  const isHovered = hovered === item.name;
+                  return (
+                    <div key={item.name} className="overflow-hidden">
+                      <motion.div custom={i} variants={linkVariants} className="inline-block">
+                        <Link
+                          to={item.to}
+                          onClick={onClose}
+                          onMouseEnter={() => setHovered(item.name)}
+                          onMouseLeave={() => setHovered(null)}
+                          style={{ fontStyle: isHovered ? 'italic' : 'normal' }}
+                          className={`text-[28px] md:text-[32px] lg:text-[38px] leading-[1.15] font-bold tracking-tight transition-all duration-300 block
+                            ${isActive ? 'text-orange-500' : isHovered ? 'text-white' : 'text-white/60'}`}
+                        >
+                          {item.name}
+                        </Link>
+                      </motion.div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Vertical Divider Line - Darker/More visible (Matching Home style) */}
-            <div className="hidden lg:block w-[1px] h-[80%] bg-white/30 opacity-80 ml-4 mr-20"></div>
+            {/* Vertical Divider */}
+            <div className="hidden lg:block w-[1px] bg-white/20 mx-12 self-stretch my-8" />
 
-            {/* Right Content Columns */}
-            <div className="flex-1 space-y-16 lg:space-y-24 relative pb-20">
-                {/* Top Grids */}
-                <motion.div variants={extraInfoVariants} className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-16 relative z-10">
-                    {/* Projects */}
-                    <div>
-                        <h4 className="text-[16px] font-bold text-white mb-6">Projects</h4>
-                        <ul className="space-y-2">
-                            {['Interior design studio', 'Home Security Camera', 'Kemia Honest Skincare', 'Cascade of Lava', 'Air Pro by Molekule', 'Tony\'s Chocolonely'].map(link => (
-                                <li key={link}>
-                                    <Link to="#" className="text-[13px] font-bold text-white/40 hover:text-white transition-all duration-300">{link}</Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+            {/* Right Content */}
+            <div className="flex-1 flex flex-col justify-center gap-8 py-8 lg:py-0 relative">
 
-                    {/* Useful links */}
-                    <div>
-                        <h4 className="text-[16px] font-bold text-white mb-6">Useful links</h4>
-                        <ul className="space-y-2">
-                            {['Privacy Policy', 'Terms and conditions', 'Cookie Policy', 'Careers'].map(link => (
-                                <li key={link}>
-                                    <Link to="#" className="text-[13px] font-bold text-white/40 hover:text-white transition-all duration-300">{link}</Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </motion.div>
+              {/* Top Grids */}
+              <motion.div variants={extraInfoVariants} className="grid grid-cols-2 gap-x-12 gap-y-6 relative z-10">
+                <div>
+                  <h4 className="text-[13px] font-bold text-white mb-4 uppercase tracking-widest">Projects</h4>
+                  <ul className="space-y-1.5">
+                    {['Interior design studio', 'Home Security Camera', 'Kemia Honest Skincare', 'Cascade of Lava', 'Air Pro by Molekule', "Tony's Chocolonely"].map(link => (
+                      <li key={link}>
+                        <Link to="/projects" onClick={onClose} className="text-[12px] font-bold text-white/35 hover:text-white transition-all duration-300">{link}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-[13px] font-bold text-white mb-4 uppercase tracking-widest">Useful links</h4>
+                  <ul className="space-y-1.5">
+                    {['Privacy Policy', 'Terms and conditions', 'Cookie Policy', 'Careers'].map(link => (
+                      <li key={link}>
+                        <Link to="/contact" onClick={onClose} className="text-[12px] font-bold text-white/35 hover:text-white transition-all duration-300">{link}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
 
-                {/* Horizontal Divider */}
-                <motion.div variants={extraInfoVariants} className="h-[1px] bg-white/10 w-full relative z-10"></motion.div>
+              {/* Divider */}
+              <motion.div variants={extraInfoVariants} className="h-[1px] bg-white/10 w-full" />
 
-                {/* Bottom Locations */}
-                <motion.div variants={extraInfoVariants} className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12 relative z-10">
-                    {/* Canada */}
-                    <div className="space-y-6">
-                        <h4 className="text-[16px] font-bold text-white mb-4">Canada</h4>
-                        <div className="text-[13px] font-bold text-white/30 leading-relaxed max-w-[220px]">
-                            71 South Los Carneros Road, California <br/> 
-                            <span className="text-white/50 mt-1 block">+51 174 705 812</span>
-                        </div>
-                    </div>
-
-                    {/* Germany */}
-                    <div className="space-y-6">
-                        <h4 className="text-[16px] font-bold text-white mb-4">Germany</h4>
-                        <div className="text-[13px] font-bold text-white/30 leading-relaxed max-w-[220px]">
-                            Leehove 40, 2678 MC De Lier, Netherlands <br/> 
-                            <span className="text-white/50 mt-1 block">+31 174 705 811</span>
-                        </div>
-                    </div>
-                </motion.div>
+              {/* Locations */}
+              <motion.div variants={extraInfoVariants} className="grid grid-cols-2 gap-x-12 relative z-10">
+                <div>
+                  <h4 className="text-[13px] font-bold text-white mb-3 uppercase tracking-widest">Canada</h4>
+                  <div className="text-[12px] font-bold text-white/30 leading-relaxed">
+                    71 South Los Carneros Road, California
+                    <span className="text-white/50 mt-1 block">+51 174 705 812</span>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-[13px] font-bold text-white mb-3 uppercase tracking-widest">Germany</h4>
+                  <div className="text-[12px] font-bold text-white/30 leading-relaxed">
+                    Leehove 40, 2678 MC De Lier, Netherlands
+                    <span className="text-white/50 mt-1 block">+31 174 705 811</span>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
 
-          {/* Background Polytope Decor - Full View - ON TOP */}
-          <div className="absolute top-[-22%] left-[65%] -translate-x-1/2 opacity-[0.4] pointer-events-none z-[100]">
-            <Polytope size={350} speed={0.1} opacity={0.6} />
+          {/* Background Polytope */}
+          <div className="absolute top-[-10%] left-[58%] -translate-x-1/2 opacity-[0.25] pointer-events-none z-0">
+            <Polytope size={320} speed={0.1} opacity={0.6} />
           </div>
         </motion.div>
       )}

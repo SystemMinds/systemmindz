@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUp } from 'lucide-react'
 import Polytope from '@components/Polytope/Polytope'
 import ScrollIndicator from '@components/ScrollIndicator/ScrollIndicator'
@@ -141,21 +142,21 @@ export default function Home() {
               transition={{ duration: 1, delay: 3.8, ease: "easeOut" }}
               className="flex flex-wrap items-center gap-10"
             >
-              {/* Orange Pill Button */}
-              <button className="group relative flex items-center gap-6 bg-orange-500 rounded-full pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500">
+              {/* Orange Pill Button → Services */}
+              <Link to="/services" className="group relative flex items-center gap-6 bg-orange-500 rounded-full pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-black">What we do</span>
                 <div className="w-11 h-11 bg-black rounded-full flex items-center justify-center text-white transition-all duration-500 group-hover:rotate-45">
                   <ArrowRight size={18} />
                 </div>
-              </button>
+              </Link>
 
-              {/* Outline Text Button */}
-              <button className="group flex items-center gap-6 transition-all">
+              {/* Outline Text Button → Portfolio */}
+              <Link to="/portfolio" className="group flex items-center gap-6 transition-all">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 group-hover:text-white transition-colors duration-300">View Works</span>
                 <div className="w-11 h-11 border border-white/10 rounded-full flex items-center justify-center text-white/30 group-hover:border-white/60 group-hover:text-white transition-all duration-500 group-hover:-rotate-45">
                   <ArrowRight size={18} />
                 </div>
-              </button>
+              </Link>
             </motion.div>
           </div>
         </div>

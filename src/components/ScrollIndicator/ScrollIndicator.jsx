@@ -1,17 +1,28 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 
 const ScrollIndicator = () => {
-  const { scrollYProgress } = useScroll();
-  // Rotate the text based on scroll progress (0 to 90 degrees for a very slow, subtle feel)
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const rotation = useMotionValue(0);
+  const smoothRotation = useSpring(rotation, { stiffness: 40, damping: 20, mass: 1 });
+  const lastScrollY = useRef(window.scrollY);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY.current;
+      lastScrollY.current = currentY;
+      rotation.set(rotation.get() + delta * 0.5);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [rotation]);
 
   return (
     <div className="relative w-32 h-32 flex items-center justify-center select-none cursor-pointer group">
       {/* Scroll-Driven Rotating Text */}
-      <motion.div 
-        style={{ rotate }}
+      <motion.div
+        style={{ rotate: smoothRotation }}
         className="absolute w-full h-full"
       >
         <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">

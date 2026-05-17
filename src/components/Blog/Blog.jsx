@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const publications = [
     {
@@ -32,12 +33,12 @@ const Blog = () => {
                         Popular Publications:
                     </h2>
 
-                    <button className="group flex items-center gap-4 transition-all duration-500">
+                    <Link to="/portfolio" className="group flex items-center gap-4 transition-all duration-500">
                         <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black">View All</span>
                         <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black transition-all duration-500">
                             <ArrowRight size={18} className="text-black group-hover:text-orange-500 transition-colors" />
                         </div>
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Blog Grid */}
@@ -77,12 +78,12 @@ const Blog = () => {
                             </p>
 
                             {/* Read More */}
-                            <div className="flex items-center gap-4 group/more">
+                            <Link to="/portfolio" className="flex items-center gap-4 group/more">
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black">Read More</span>
                                 <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover/more:bg-black transition-all duration-500">
                                     <ArrowRight size={16} className="text-black group-hover/more:text-orange-500 transition-colors" />
                                 </div>
-                            </div>
+                            </Link>
                         </motion.div>
                     ))}
                 </div>
