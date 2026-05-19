@@ -1,94 +1,151 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Github, Twitter, Dribbble, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Github, Twitter, Linkedin, Instagram, MapPin, Mail, Phone } from 'lucide-react';
+
+const FOOTER_LINKS = [
+    {
+        title: 'Company',
+        links: [
+            { label: 'About Us',   to: '/portfolio' },
+            { label: 'Our Team',   to: '/team' },
+            { label: 'Careers',    to: '/careers' },
+            { label: 'Newsroom',   to: '/press' },
+        ],
+    },
+    {
+        title: 'Services',
+        links: [
+            { label: 'Web Development',  to: '/services' },
+            { label: 'Mobile Apps',      to: '/services' },
+            { label: 'UI / UX Design',   to: '/services' },
+            { label: 'Cloud Solutions',  to: '/services' },
+        ],
+    },
+    {
+        title: 'Work',
+        links: [
+            { label: 'About Us',     to: '/portfolio' },
+            { label: 'Case Studies', to: '/projects' },
+            { label: 'Our Clients',  to: '/our-clients' },
+            { label: 'Testimonials', to: '/our-clients' },
+        ],
+    },
+    {
+        title: 'Legal',
+        links: [
+            { label: 'Privacy Policy',  to: '/contact' },
+            { label: 'Terms of Service',to: '/contact' },
+            { label: 'Cookie Policy',   to: '/contact' },
+            { label: 'Compliance',      to: '/contact' },
+        ],
+    },
+];
+
+const SOCIALS = [
+    { icon: Linkedin,  href: 'https://linkedin.com',  label: 'LinkedIn' },
+    { icon: Twitter,   href: 'https://twitter.com',   label: 'Twitter' },
+    { icon: Github,    href: 'https://github.com',    label: 'GitHub' },
+    { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
+];
 
 const Footer = () => {
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    const year = new Date().getFullYear();
 
     return (
-        <footer data-navtheme="dark" className="relative bg-black text-white pt-32 pb-20 overflow-hidden">
+        <footer data-navtheme="dark" className="bg-[#0a0a0a] border-t border-white/[0.07]">
 
-            <div className="max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-20 xl:px-24">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 mb-32">
+            {/* ── Main grid ── */}
+            <div className="max-w-screen-xl mx-auto px-6 lg:px-10 pt-12 pb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-                    {/* Brand & Newsletter Section (Span 4) */}
-                    <div className="lg:col-span-4 space-y-12">
-                        <h2 className="text-[40px] font-bold tracking-tight">SystemMindz</h2>
-                        <div className="space-y-6">
-                            <p className="text-[13px] text-white/40 font-light">Subscribe our newsletter:</p>
-                            <div className="relative max-w-sm">
-                                <input
-                                    type="email"
-                                    placeholder="ENTER YOUR EMAIL"
-                                    className="w-full bg-white/5 border-none rounded-full py-4 pl-8 pr-16 text-[12px] tracking-widest focus:ring-1 focus:ring-orange-500 transition-all outline-none"
-                                />
-                                <button className="absolute right-1.5 top-1.5 w-11 h-11 bg-orange-500 rounded-full flex items-center justify-center text-black hover:bg-white transition-colors duration-500">
-                                    <ArrowRight size={18} />
-                                </button>
+                    {/* Brand column */}
+                    <div className="lg:col-span-4 flex flex-col gap-6 lg:pr-12">
+
+                        {/* Logo + tagline */}
+                        <div>
+                            <Link to="/" className="inline-block text-2xl tracking-tight text-white"
+                                  style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700 }}>
+                                System<span className="text-orange-500">Mindz</span>
+                            </Link>
+                            <p className="mt-2.5 text-[13px] leading-relaxed text-white/35 max-w-xs">
+                                Engineering intelligent digital solutions for enterprises worldwide.
+                                We build scalable, future-ready technology that drives measurable impact.
+                            </p>
+                        </div>
+
+                        {/* Contact info */}
+                        <ul className="space-y-2">
+                            <li className="flex items-center gap-2.5 text-[12px] text-white/30">
+                                <MapPin size={12} className="text-orange-500/70 shrink-0" />
+                                Bengaluru, Karnataka, India
+                            </li>
+                            <li>
+                                <a href="mailto:hello@systemmindz.com"
+                                   className="flex items-center gap-2.5 text-[12px] text-white/30 hover:text-orange-400 transition-colors">
+                                    <Mail size={12} className="text-orange-500/70 shrink-0" />
+                                    hello@systemmindz.com
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:+919876543210"
+                                   className="flex items-center gap-2.5 text-[12px] text-white/30 hover:text-orange-400 transition-colors">
+                                    <Phone size={12} className="text-orange-500/70 shrink-0" />
+                                    +91 98765 43210
+                                </a>
+                            </li>
+                        </ul>
+
+                        {/* Social icons */}
+                        <div className="flex items-center gap-2">
+                            {SOCIALS.map(({ icon: Icon, href, label }) => (
+                                <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}
+                                   className="w-8 h-8 rounded border border-white/10 flex items-center justify-center text-white/35 hover:text-white hover:border-orange-500/50 hover:bg-orange-500/5 transition-all duration-200">
+                                    <Icon size={13} />
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Link columns */}
+                    <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+                        {FOOTER_LINKS.map((section) => (
+                            <div key={section.title}>
+                                <h3 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white mb-4">
+                                    {section.title}
+                                </h3>
+                                <ul className="space-y-2.5">
+                                    {section.links.map((link) => (
+                                        <li key={link.label}>
+                                            <Link to={link.to}
+                                                  className="text-[13px] text-white/45 hover:text-white transition-colors duration-150">
+                                                {link.label}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Navigation Section (Span 4) */}
-                    <div className="lg:col-span-4 lg:pl-12">
-                        <ul className="space-y-4">
-                            <li><Link to="/"            className="text-[22px] md:text-[26px] font-bold text-orange-500 hover:text-white transition-colors">Home</Link></li>
-                            <li><Link to="/portfolio"   className="text-[22px] md:text-[26px] font-bold text-white hover:text-orange-500 transition-colors">Portfolio</Link></li>
-                            <li><Link to="/services"    className="text-[22px] md:text-[26px] font-bold text-white hover:text-orange-500 transition-colors">Services</Link></li>
-                            <li><Link to="/projects"    className="text-[22px] md:text-[26px] font-bold text-white hover:text-orange-500 transition-colors">Projects</Link></li>
-                            <li><Link to="/our-clients" className="text-[22px] md:text-[26px] font-bold text-white hover:text-orange-500 transition-colors">Our Clients</Link></li>
-                            <li><Link to="/contact"     className="text-[22px] md:text-[26px] font-bold text-white hover:text-orange-500 transition-colors">Contact</Link></li>
-                        </ul>
-                    </div>
-
-                    {/* Policy Section (Span 4) */}
-                    <div className="lg:col-span-4">
-                        <ul className="space-y-4 text-[14px] text-white/40 font-light pt-4 leading-relaxed">
-                            <li><Link to="/contact" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                            <li><Link to="/contact" className="hover:text-white transition-colors">Terms and conditions</Link></li>
-                            <li><Link to="/contact" className="hover:text-white transition-colors">Cookie Policy</Link></li>
-                            <li><Link to="/contact" className="hover:text-white transition-colors">Careers</Link></li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Bottom Info Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 pt-12 border-t border-white/5">
-                    {/* Socials & Copyright (Span 4) */}
-                    <div className="lg:col-span-4 space-y-10">
-                        <div className="flex items-center gap-6 text-white/40">
-                            <a href="https://systemmindz.com"   target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Globe size={18} /></a>
-                            <a href="https://dribbble.com"      target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Dribbble size={18} /></a>
-                            <a href="https://twitter.com"       target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Twitter size={18} /></a>
-                            <a href="https://github.com"        target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Github size={18} /></a>
-                        </div>
-                        <p className="text-[11px] text-white/20 tracking-widest uppercase">
-                            © Copyright 2025 - SystemMindz. <br className="hidden md:block" /> All Rights Reserved.
-                        </p>
-                    </div>
-
-                    {/* India (Span 4) */}
-                    <div className="lg:col-span-4 lg:pl-12 space-y-6">
-                        <h4 className="text-[14px] font-bold uppercase tracking-widest">India</h4>
-                        <p className="text-[13px] text-white/40 leading-loose font-light">
-                            Bengaluru, Karnataka, India<br />
-                            +91 98765 43210
-                        </p>
-                    </div>
-
-                    {/* Contact (Span 4) */}
-                    <div className="lg:col-span-4 space-y-6">
-                        <h4 className="text-[14px] font-bold uppercase tracking-widest">Get In Touch</h4>
-                        <p className="text-[13px] text-white/40 leading-loose font-light">
-                            hello@systemmindz.com<br />
-                            india@systemmindz.com
-                        </p>
+                        ))}
                     </div>
                 </div>
             </div>
+
+            {/* ── Legal bar ── */}
+            <div className="border-t border-white/[0.06]">
+                <div className="max-w-screen-xl mx-auto px-6 lg:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <p className="text-[11px] text-white/20 tracking-wide">
+                        © {year} SystemMindz Technologies Pvt. Ltd. All rights reserved.
+                    </p>
+                    <div className="flex items-center gap-5">
+                        {['Privacy', 'Terms', 'Cookies', 'Sitemap'].map((item) => (
+                            <Link key={item} to="/contact"
+                                  className="text-[11px] text-white/20 hover:text-white/50 transition-colors">
+                                {item}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
         </footer>
     );
 };

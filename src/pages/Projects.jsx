@@ -75,7 +75,7 @@ const fadeUp = {
 
 export default function Projects() {
   return (
-    <div className="bg-black min-h-screen">
+    <div data-navtheme="dark" className="bg-black min-h-screen">
 
       {/* Hero */}
       <section className="relative min-h-[65vh] flex flex-col justify-end pb-20 overflow-hidden px-8 sm:px-12 md:px-20 lg:pl-64 xl:pl-72 pt-48">

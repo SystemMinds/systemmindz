@@ -24,25 +24,25 @@ const publications = [
 
 const Blog = () => {
     return (
-        <section className="bg-white py-20 md:py-24 relative overflow-hidden">
-            <div className="max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-20 xl:px-24">
+        <section className="bg-white min-h-screen py-16 sm:py-20 md:py-24 flex flex-col justify-center relative overflow-hidden">
+            <div className="max-w-screen-2xl mx-auto px-5 sm:px-10 md:px-16 lg:px-20 xl:px-24 w-full">
 
-                {/* Header Pattern */}
-                <div className="flex justify-between items-end mb-16">
-                    <h2 className="text-[30px] md:text-[42px] font-bold text-black tracking-tight">
+                {/* Header */}
+                <div className="flex flex-wrap justify-between items-end mb-10 sm:mb-12 md:mb-16 gap-4">
+                    <h2 className="text-[24px] sm:text-[32px] md:text-[40px] font-bold text-black tracking-tight">
                         Popular Publications:
                     </h2>
 
-                    <Link to="/portfolio" className="group flex items-center gap-4 transition-all duration-500">
+                    <Link to="/portfolio" className="group flex items-center gap-3 sm:gap-4 transition-all duration-500">
                         <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black">View All</span>
-                        <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black transition-all duration-500">
-                            <ArrowRight size={18} className="text-black group-hover:text-orange-500 transition-colors" />
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black transition-all duration-500">
+                            <ArrowRight size={16} className="text-black group-hover:text-orange-500 transition-colors" />
                         </div>
                     </Link>
                 </div>
 
                 {/* Blog Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 md:gap-16 lg:gap-20 xl:gap-24">
                     {publications.map((post, idx) => (
                         <motion.div
                             key={post.id}
@@ -52,8 +52,8 @@ const Blog = () => {
                             transition={{ duration: 1, delay: idx * 0.2 }}
                             className="group cursor-pointer"
                         >
-                            {/* Image Container */}
-                            <div className="relative aspect-[16/11] overflow-hidden mb-8">
+                            {/* Image */}
+                            <div className="relative aspect-[16/11] overflow-hidden mb-6 sm:mb-8">
                                 <img
                                     src={post.image}
                                     alt={post.title}
@@ -62,26 +62,26 @@ const Blog = () => {
                             </div>
 
                             {/* Meta */}
-                            <div className="flex items-center gap-6 mb-4">
+                            <div className="flex items-center gap-4 sm:gap-6 mb-3 sm:mb-4">
                                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500">{post.category}</span>
                                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/30">{post.date}</span>
                             </div>
 
                             {/* Title */}
-                            <h3 className="text-[20px] md:text-[24px] font-bold text-black leading-tight mb-2 transition-colors duration-500">
+                            <h3 className="text-[18px] sm:text-[20px] md:text-[24px] font-bold text-black leading-tight mb-2 transition-colors duration-500">
                                 {post.title}
                             </h3>
 
                             {/* Excerpt */}
-                            <p className="text-[14px] md:text-[15px] text-black/40 leading-relaxed font-light mb-8 max-w-xl">
+                            <p className="text-[13px] sm:text-[14px] md:text-[15px] text-black/40 leading-relaxed font-light mb-6 sm:mb-8 max-w-xl">
                                 {post.excerpt}
                             </p>
 
                             {/* Read More */}
-                            <Link to="/portfolio" className="flex items-center gap-4 group/more">
+                            <Link to="/portfolio" className="flex items-center gap-3 sm:gap-4 group/more">
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black">Read More</span>
-                                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover/more:bg-black transition-all duration-500">
-                                    <ArrowRight size={16} className="text-black group-hover/more:text-orange-500 transition-colors" />
+                                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/5 flex items-center justify-center group-hover/more:bg-black transition-all duration-500">
+                                    <ArrowRight size={15} className="text-black group-hover/more:text-orange-500 transition-colors" />
                                 </div>
                             </Link>
                         </motion.div>

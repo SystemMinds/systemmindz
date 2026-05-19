@@ -1,10 +1,13 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 const express = require('express');
 const cors = require('cors');
 const { sendEmail } = require('./emailService');
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 4000;
+
+console.log('[server] ZEPTO_API_KEY loaded:', process.env.ZEPTO_API_KEY ? `YES (${process.env.ZEPTO_API_KEY.slice(0, 10)}...)` : 'MISSING');
+console.log('[server] ZEPTO_FROM_EMAIL:', process.env.ZEPTO_FROM_EMAIL || 'MISSING');
 
 app.use(cors());
 app.use(express.json());
@@ -15,76 +18,119 @@ app.use(express.json());
  * Sends to company inbox; CCs the enquirer.
  */
 app.post('/api/contact', async (req, res) => {
-    const { name, email, company, budget, message } = req.body;
+    const { firstName, lastName, email, phone, message, services } = req.body;
 
-    if (!name || !email || !message) {
-        return res.status(400).json({ sent: false, error: 'Name, email and message are required.' });
+    if (!firstName || !email || !message) {
+        return res.status(400).json({ sent: false, error: 'First name, email and message are required.' });
     }
 
-    const subject = `New Enquiry from ${name}${budget ? ` — Budget: ${budget}` : ''}`;
+    const fullName = [firstName, lastName].filter(Boolean).join(' ');
+    const servicesList = Array.isArray(services) && services.length > 0 ? services.join(', ') : null;
 
-    const htmlBody = `
-        <div style="font-family: Arial, sans-serif; line-height: 1.8; color: #222; max-width: 640px;
-                    margin: 0 auto; border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden;">
+    const enquirySubject = `New Enquiry from ${fullName} — SystemMindz`;
 
-            <div style="background: #000; padding: 32px 36px;">
-                <h1 style="margin: 0; color: #f97316; font-size: 22px; letter-spacing: -0.5px;">
-                    SystemMindz
-                </h1>
-                <p style="margin: 4px 0 0; color: #ffffff80; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">
-                    New Contact Enquiry
-                </p>
-            </div>
+    const enquiryHtml = `
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#333333;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:40px auto;">
+    <tr>
+      <td style="padding:0 0 24px 0;border-bottom:2px solid #333333;">
+        <span style="font-size:20px;font-weight:700;color:#333333;">SystemMindz</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:28px 0 8px 0;">
+        <p style="margin:0;font-size:13px;color:#888888;text-transform:uppercase;letter-spacing:1px;">New Contact Enquiry</p>
+        <h2 style="margin:8px 0 0 0;font-size:22px;color:#111111;">You have a new message</h2>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:24px 0 0 0;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:12px;color:#888888;text-transform:uppercase;letter-spacing:1px;width:120px;vertical-align:top;">Name</td>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:15px;color:#111111;font-weight:600;">${fullName}</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:12px;color:#888888;text-transform:uppercase;letter-spacing:1px;vertical-align:top;">Email</td>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:15px;color:#111111;">${email}</td>
+          </tr>
+          ${phone ? `
+          <tr>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:12px;color:#888888;text-transform:uppercase;letter-spacing:1px;vertical-align:top;">Phone</td>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:15px;color:#111111;">${phone}</td>
+          </tr>` : ''}
+          ${servicesList ? `
+          <tr>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:12px;color:#888888;text-transform:uppercase;letter-spacing:1px;vertical-align:top;">Services</td>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:15px;color:#111111;">${servicesList}</td>
+          </tr>` : ''}
+          <tr>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:12px;color:#888888;text-transform:uppercase;letter-spacing:1px;vertical-align:top;">Message</td>
+            <td style="padding:12px 0;border-top:1px solid #eeeeee;font-size:15px;color:#333333;line-height:1.6;white-space:pre-wrap;">${message}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:32px 0 0 0;border-top:1px solid #eeeeee;">
+        <p style="margin:0;font-size:12px;color:#aaaaaa;">This message was submitted via the contact form on systemmindz.com</p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
 
-            <div style="padding: 36px;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-                    <tr>
-                        <td style="padding: 10px 0; color: #999; width: 120px; vertical-align: top; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Name</td>
-                        <td style="padding: 10px 0; color: #111; font-weight: 600;">${name}</td>
-                    </tr>
-                    <tr style="border-top: 1px solid #f0f0f0;">
-                        <td style="padding: 10px 0; color: #999; vertical-align: top; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Email</td>
-                        <td style="padding: 10px 0;"><a href="mailto:${email}" style="color: #f97316; text-decoration: none;">${email}</a></td>
-                    </tr>
-                    ${company ? `
-                    <tr style="border-top: 1px solid #f0f0f0;">
-                        <td style="padding: 10px 0; color: #999; vertical-align: top; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Company</td>
-                        <td style="padding: 10px 0; color: #111;">${company}</td>
-                    </tr>` : ''}
-                    ${budget ? `
-                    <tr style="border-top: 1px solid #f0f0f0;">
-                        <td style="padding: 10px 0; color: #999; vertical-align: top; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Budget</td>
-                        <td style="padding: 10px 0;">
-                            <span style="background: #f97316; color: #000; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: bold;">
-                                ${budget}
-                            </span>
-                        </td>
-                    </tr>` : ''}
-                    <tr style="border-top: 1px solid #f0f0f0;">
-                        <td style="padding: 10px 0; color: #999; vertical-align: top; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Message</td>
-                        <td style="padding: 10px 0; color: #333; white-space: pre-wrap;">${message}</td>
-                    </tr>
-                </table>
-            </div>
+    const thankYouHtml = `
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#333333;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:40px auto;">
+    <tr>
+      <td style="padding:0 0 24px 0;border-bottom:2px solid #333333;">
+        <span style="font-size:20px;font-weight:700;color:#333333;">SystemMindz</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:32px 0 0 0;">
+        <p style="margin:0 0 20px 0;font-size:16px;color:#111111;">Hi ${firstName},</p>
+        <p style="margin:0 0 16px 0;font-size:15px;color:#444444;line-height:1.7;">
+          Thank you for reaching out to us. We have received your message and will get back to you within <strong>24 hours</strong>.
+        </p>
+        <p style="margin:0 0 32px 0;font-size:15px;color:#444444;line-height:1.7;">
+          If your matter is urgent, you can also reach us directly at
+          <a href="mailto:hello@systemmindz.com" style="color:#333333;">hello@systemmindz.com</a>.
+        </p>
+        <p style="margin:0;font-size:15px;color:#444444;line-height:1.7;">
+          Best regards,<br/>
+          <strong>Team SystemMindz</strong>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:40px 0 0 0;border-top:1px solid #eeeeee;margin-top:40px;">
+        <p style="margin:0;font-size:12px;color:#aaaaaa;">SystemMindz · hello@systemmindz.com · systemmindz.com</p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
 
-            <div style="background: #f9f9f9; padding: 20px 36px; border-top: 1px solid #eee;">
-                <p style="margin: 0; font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px;">
-                    Sent via SystemMindz Contact Form · hello@systemmindz.com
-                </p>
-            </div>
-        </div>
-    `;
+    // Send enquiry to both company owners
+    const [r1, r2] = await Promise.all([
+        sendEmail('sharanmneeli09@gmail.com', enquirySubject, enquiryHtml),
+        sendEmail('mallikarjuns0090@gmail.com', enquirySubject, enquiryHtml),
+    ]);
 
-    const companyInbox = process.env.CONTACT_RECIPIENT_EMAIL || 'hello@systemmindz.com';
+    const sent = r1.sent || r2.sent;
 
-    const result = await sendEmail(
-        companyInbox,
-        subject,
-        htmlBody,
-        email  // CC the enquirer so they get a copy
-    );
+    // Send thank-you acknowledgement to the person who submitted
+    if (sent) {
+        await sendEmail(email, 'Thank you for reaching out — SystemMindz', thankYouHtml);
+    }
 
-    return res.json(result);
+    return res.json({ sent, error: sent ? undefined : (r1.error || r2.error) });
 });
 
 app.listen(PORT, () => {

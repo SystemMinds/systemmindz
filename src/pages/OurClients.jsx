@@ -53,7 +53,7 @@ const fadeUp = {
 
 export default function OurClients() {
   return (
-    <div className="bg-black min-h-screen">
+    <div data-navtheme="dark" className="bg-black min-h-screen">
 
       {/* Hero */}
       <section className="relative min-h-[65vh] flex flex-col justify-end pb-24 overflow-hidden px-8 sm:px-12 md:px-20 lg:pl-64 xl:pl-72 pt-48">
@@ -108,7 +108,7 @@ export default function OurClients() {
       </section>
 
       {/* Clients Grid */}
-      <section className="bg-white py-32 px-8 sm:px-12 md:px-20 lg:px-24 xl:px-32">
+      <section data-navtheme="light" className="bg-white py-32 px-8 sm:px-12 md:px-20 lg:px-24 xl:px-32">
         <motion.p
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-[11px] uppercase tracking-[0.4em] text-orange-500 font-bold mb-6"

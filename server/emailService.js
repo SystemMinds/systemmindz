@@ -136,6 +136,8 @@ const sendEmail = async (to, subject, htmlBody, cc, attachments, options = {}) =
         return { sent: true };
     } catch (err) {
         const payload = err.response?.data;
+        console.error('[emailService] Zepto HTTP status:', err.response?.status);
+        console.error('[emailService] Zepto raw response:', JSON.stringify(payload, null, 2));
         const normalizedPayload = (
             payload
             && typeof payload === 'object'

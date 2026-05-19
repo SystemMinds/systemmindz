@@ -92,18 +92,18 @@ export default function Home() {
         </div>
 
         {/* Hero Content Main Block */}
-        <div className="w-full relative z-10 px-8 sm:px-12 md:px-20 lg:pl-64 xl:pl-72">
-          <div className="max-w-6xl">
+        <div className="w-full relative z-10 flex justify-center px-5 sm:px-10 md:px-16 lg:px-20 xl:px-24">
+          <div className="w-full max-w-5xl">
             {/* Animated Headline with staggered line reveal */}
-            <div className="mb-14">
+            <div className="mb-8 sm:mb-10 md:mb-14">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, delay: 3.2, ease: [0.215, 0.61, 0.355, 1] }}
+                transition={{ duration: 0.7, delay: 0.1, ease: [0.215, 0.61, 0.355, 1] }}
                 className="space-y-0"
               >
-                <h1 className="text-[55px] md:text-[90px] lg:text-[110px] leading-[1.05] tracking-tight text-white mb-2">
+                <h1 className="text-[36px] sm:text-[52px] md:text-[70px] lg:text-[84px] xl:text-[92px] leading-[1.05] tracking-tight text-white mb-2">
                   <span className="font-bold">Turn Your</span> <span className="font-extralight text-white/40">Vision Into</span>
                 </h1>
               </motion.div>
@@ -112,21 +112,21 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, delay: 3.4, ease: [0.215, 0.61, 0.355, 1] }}
+                transition={{ duration: 0.7, delay: 0.25, ease: [0.215, 0.61, 0.355, 1] }}
               >
-                <h1 className="text-[55px] md:text-[90px] lg:text-[110px] leading-[1.05] tracking-tight text-white">
+                <h1 className="text-[36px] sm:text-[52px] md:text-[70px] lg:text-[84px] xl:text-[92px] leading-[1.05] tracking-tight text-white">
                   <span className="font-bold">Scalable</span> <span className="font-extralight text-white/40">Solutions</span>
                 </h1>
               </motion.div>
             </div>
 
-            {/* Subtext Reveal - Intersection Observer Triggered */}
+            {/* Subtext Reveal */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, delay: 3.6, ease: "easeOut" }}
-              className="max-w-xl text-white/40 text-[13px] md:text-[14px] leading-relaxed font-light mb-14"
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+              className="max-w-xl text-white/40 text-[13px] md:text-[14px] leading-relaxed font-light mb-8 sm:mb-10 md:mb-14"
             >
               We bring your dream project from scratch to live with robustness and success.
               As expert full-stack developers, we craft high-performance applications
@@ -134,13 +134,13 @@ export default function Home() {
               We handle the entire lifecycle, ensuring your vision is executed perfectly.
             </motion.p>
 
-            {/* Buttons Group - Intersection Observer Triggered */}
+            {/* Buttons Group */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1, delay: 3.8, ease: "easeOut" }}
-              className="flex flex-wrap items-center gap-10"
+              transition={{ duration: 0.6, delay: 0.55, ease: "easeOut" }}
+              className="flex flex-wrap items-center gap-6 md:gap-10"
             >
               {/* Orange Pill Button → Services */}
               <Link to="/services" className="group relative flex items-center gap-6 bg-orange-500 rounded-full pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500">
@@ -165,7 +165,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 4.5 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
           className="absolute right-12 md:right-32 bottom-12 scale-90 md:scale-110"
         >
           <ScrollIndicator />

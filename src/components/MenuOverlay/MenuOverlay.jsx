@@ -34,7 +34,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
 
   const navItems = [
     { name: 'Homepage',    to: '/'            },
-    { name: 'Portfolio',   to: '/portfolio'   },
+    { name: 'About Us',    to: '/portfolio'   },
     { name: 'Services',    to: '/services'    },
     { name: 'Projects',    to: '/projects'    },
     { name: 'Our Clients', to: '/our-clients' },
@@ -53,8 +53,10 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         >
 
           {/* Header */}
-          <div className="w-full px-6 sm:px-10 lg:pl-32 xl:pl-48 py-8 flex items-center justify-between xl:pr-32 relative z-20 shrink-0">
-            <Link to="/" onClick={onClose} className="text-xl font-bold text-white select-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>SystemMindz</Link>
+          <div className="w-full px-5 sm:px-10 lg:pl-32 xl:pl-48 py-5 sm:py-7 md:py-8 flex items-center justify-between xl:pr-32 relative z-20 shrink-0">
+            <Link to="/" onClick={onClose} className="text-xl font-bold text-white select-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              <span>System</span><span className="text-orange-500">Mindz</span>
+            </Link>
             <button
               onClick={onClose}
               className="text-white flex flex-col items-center justify-center p-2"
@@ -65,7 +67,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
           </div>
 
           {/* Main Layout */}
-          <div className="flex-1 flex flex-col lg:flex-row items-stretch px-6 sm:px-10 lg:pl-32 xl:pl-48 xl:pr-32 min-h-0">
+          <div className="flex-1 flex flex-col lg:flex-row items-stretch px-5 sm:px-10 lg:pl-32 xl:pl-48 xl:pr-32 min-h-0">
 
             {/* Left Nav Column */}
             <div className="w-full lg:w-[36%] flex flex-col justify-center py-8 lg:py-0 lg:pr-12">
@@ -82,7 +84,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                           onMouseEnter={() => setHovered(item.name)}
                           onMouseLeave={() => setHovered(null)}
                           style={{ fontStyle: isHovered ? 'italic' : 'normal' }}
-                          className={`text-[28px] md:text-[32px] lg:text-[38px] leading-[1.15] font-bold tracking-tight transition-all duration-300 block
+                          className={`text-[24px] sm:text-[30px] md:text-[34px] lg:text-[38px] leading-[1.15] font-bold tracking-tight transition-all duration-300 block
                             ${isActive ? 'text-orange-500' : isHovered ? 'text-white' : 'text-white/60'}`}
                         >
                           {item.name}
