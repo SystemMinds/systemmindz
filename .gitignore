@@ -1,32 +1,6 @@
-# OS
 .DS_Store
-Thumbs.db
-
-# Certificates / secrets
+*.log
+*.pid
 certs/
-
-# Editor
-.vscode/
-
-# Node
-node_modules/
-
-# Vite cache
-.vite/
-
-# Other project folders (not part of this UI push)
-AdminBackend/
-AdminFrontend/
-AntiGravity/
-Apex-Tech/
-CandidateBackend/
-CandidateFrontend/
-CandidateTest/
-KareerGrowth/
-New_UI/
-StreamingAi/
-SuperadminBackend/
-SuperadminFrontend/
-git/
-start_terminals.sh
-systemmindz/
+CSS.pdf
+HTML.pdf
