@@ -3,12 +3,12 @@ import { motion } from 'framer-motion'
 import { Mail, MapPin, Send } from 'lucide-react'
 
 const SOCIAL = [
-  { name: 'LinkedIn',  href: 'https://www.linkedin.com/company/systemmindz', logo: '/social/linkedin.svg' },
-  { name: 'Twitter',   href: 'https://twitter.com/systemmindz',               logo: '/social/twitter.svg' },
-  { name: 'Instagram', href: 'https://www.instagram.com/systemmindz',         logo: '/social/instagram.svg' },
-  { name: 'Facebook',  href: 'https://www.facebook.com/systemmindz',          logo: '/social/facebook.svg' },
-  { name: 'YouTube',   href: 'https://www.youtube.com/@systemmindz',          logo: '/social/youtube.svg' },
-  { name: 'GitHub',    href: 'https://github.com/systemmindz',                logo: '/social/github.svg' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/systemmindz', logo: '/social/linkedin.svg' },
+  { name: 'Twitter', href: 'https://twitter.com/systemmindz', logo: '/social/twitter.svg' },
+  { name: 'Instagram', href: 'https://www.instagram.com/systemmindz', logo: '/social/instagram.svg' },
+  { name: 'Facebook', href: 'https://www.facebook.com/systemmindz', logo: '/social/facebook.svg' },
+  { name: 'YouTube', href: 'https://www.youtube.com/@systemmindz', logo: '/social/youtube.svg' },
+  { name: 'GitHub', href: 'https://github.com/systemmindz', logo: '/social/github.svg' },
 ]
 import Polytope from '@components/Polytope/Polytope'
 
@@ -166,25 +166,24 @@ export default function Contact() {
                 {/* Services */}
                 <div className="flex flex-col gap-3">
                   <label className="text-[12px] font-medium text-gray-700">Services</label>
-                  <div className="grid grid-cols-2 gap-y-3 gap-x-6">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-3 gap-x-3 md:gap-x-4 w-full">
                     {SERVICES.map(s => (
                       <button
                         key={s} type="button"
                         onClick={() => toggleService(s)}
-                        className="flex items-center gap-2.5 group text-left"
+                        className="flex items-center gap-2 group text-left w-full"
                       >
-                        <span className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all duration-200 ${
-                          form.services.includes(s)
+                        <span className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all duration-200 ${form.services.includes(s)
                             ? 'bg-orange-500 border-orange-500'
                             : 'bg-transparent border-gray-300 group-hover:border-gray-500'
-                        }`}>
+                          }`}>
                           {form.services.includes(s) && (
                             <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
                               <path d="M1 3L3 5L7 1" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           )}
                         </span>
-                        <span className="text-[13px] text-gray-500 font-light group-hover:text-gray-900 transition-colors duration-200">
+                        <span className="text-[12px] md:text-[13px] lg:text-[11px] xl:text-[13px] text-gray-500 font-light group-hover:text-gray-900 transition-colors duration-200 whitespace-nowrap">
                           {s}
                         </span>
                       </button>
@@ -253,7 +252,7 @@ export default function Contact() {
             </div>
 
             {/* Visit us */}
-            <div>
+            <div className="pt-5">
               <h3 className="text-[16px] font-bold text-gray-900 mb-1.5">Visit us</h3>
               <p className="text-gray-500 text-[13px] font-light mb-4 leading-relaxed">
                 Come say hello at our India office.

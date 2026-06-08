@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Preloader = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(() => {
+    // Only show preloader on first page load in the session
+    return !sessionStorage.getItem('preloader_shown');
+  });
   const [stage, setStage] = useState('text1'); // 'text1' | 'boxReveal'
   const [boxState, setBoxState] = useState('initial'); // 'initial' | 'expanding' | 'collapsing'
   
@@ -10,7 +13,13 @@ const Preloader = () => {
   const words = text1.split(" ");
 
   useEffect(() => {
+    if (!isVisible) {
+      document.body.style.overflow = 'unset';
+      return;
+    }
+
     document.body.style.overflow = 'hidden';
+    sessionStorage.setItem('preloader_shown', 'true');
     
     // Stage 1: Text 1 (Vanishes 0.5s after final word appears)
     // Stagger (0.4s * 5) + Delay (0.5s) = 2.5s logic
@@ -36,7 +45,7 @@ const Preloader = () => {
       clearTimeout(toCollapse);
       clearTimeout(toDone);
     };
-  }, []);
+  }, [isVisible]);
 
   const container = {
     hidden: { opacity: 0 },

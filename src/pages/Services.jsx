@@ -550,15 +550,15 @@ export default function ServicesPage() {
             <span className="font-extralight text-black/30">Ready to </span>
             <span className="font-bold">get started?</span>
           </motion.h2>
-          <a
-            href="/contact"
+          <Link
+            to="/contact"
             className="group inline-flex items-center gap-6 bg-orange-500 rounded-full pl-7 pr-1.5 py-1.5 hover:bg-black transition-all duration-500"
           >
             <span className="text-[10px] font-bold uppercase tracking-widest text-black group-hover:text-white transition-colors duration-500">Talk to us</span>
             <div className="w-11 h-11 bg-black rounded-full flex items-center justify-center text-white transition-all duration-500 group-hover:rotate-45 group-hover:bg-white group-hover:text-black">
               <ArrowRight size={18} />
             </div>
-          </a>
+          </Link>
         </div>
       </section>
 

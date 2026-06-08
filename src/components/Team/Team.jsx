@@ -100,7 +100,7 @@ const Team = () => {
                             transition={{ duration: 0.8, delay: 0.4 }}
                             className="w-fit"
                         >
-                            <Link to="/our-clients" className="group relative flex items-center gap-5 sm:gap-7 bg-orange-500 rounded-full pl-6 sm:pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500">
+                            <Link to="/teams" className="group relative flex items-center gap-5 sm:gap-7 bg-orange-500 rounded-full pl-6 sm:pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500">
                                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-black">Read More</span>
                                 <div className="w-9 h-9 sm:w-11 sm:h-11 bg-black rounded-full flex items-center justify-center text-white transition-all duration-500 group-hover:bg-orange-500">
                                     <ArrowRight size={16} />

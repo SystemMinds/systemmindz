@@ -196,15 +196,15 @@ export default function Projects() {
           <br />
           <span className="font-bold">be next.</span>
         </motion.h2>
-        <a
-          href="/contact"
+        <Link
+          to="/contact"
           className="group inline-flex items-center gap-6 bg-orange-500 rounded-full pl-7 pr-1.5 py-1.5 hover:bg-white transition-all duration-500"
         >
           <span className="text-[10px] font-bold uppercase tracking-widest text-black">Start a project</span>
           <div className="w-11 h-11 bg-black rounded-full flex items-center justify-center text-white group-hover:rotate-45 transition-transform duration-500">
             <ArrowRight size={18} />
           </div>
-        </a>
+        </Link>
       </section>
 
     </div>

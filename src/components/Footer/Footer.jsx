@@ -7,7 +7,7 @@ const FOOTER_LINKS = [
         title: 'Company',
         links: [
             { label: 'About Us',   to: '/portfolio' },
-            { label: 'Our Team',   to: '/team' },
+            { label: 'Our Team',   to: '/teams' },
             { label: 'Careers',    to: '/careers' },
             { label: 'Newsroom',   to: '/press' },
         ],
