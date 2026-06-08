@@ -18,7 +18,7 @@ const Team = () => {
         {
             url: "/teams/Vidya.png",
             name: "Vidya Manjunath",
-            role: "Fullstack Developer",
+            role: "Full Stack Developer",
             socials: [
                 { icon: <Instagram size={14} />, url: "https://www.instagram.com/vid_yamanjunath/" },
                 { icon: <Linkedin size={14} />, url: "https://www.linkedin.com/in/vidya-manjunath/" },
@@ -130,6 +130,7 @@ const Team = () => {
                                             <span className="text-orange-500 font-bold text-[16px] leading-none">*</span> Co-Founder & COO
                                         </div>
                                     )}
+
                                     <motion.div
                                         initial={{ opacity: 0, y: 50 }}
                                         whileInView={{ opacity: 1, y: 0 }}
@@ -160,9 +161,13 @@ const Team = () => {
                                                 ))}
                                             </div>
                                         </div>
-
                                         <div className="absolute bottom-0 left-0 w-0 h-[4px] bg-orange-500 group-hover:w-full transition-all duration-500 z-20" />
                                     </motion.div>
+                                    {i === 1 && (
+                                        <div className="absolute -bottom-6 sm:-bottom-8 left-0 text-[11px] tracking-[0.05em] text-black/40 flex items-center gap-2 z-10 w-max">
+                                            <span className="text-orange-500 font-bold text-[16px] leading-none">*</span> Full Stack Developer
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
