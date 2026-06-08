@@ -77,7 +77,7 @@ const Footer = () => {
                         <ul className="space-y-2">
                             <li className="flex items-center gap-2.5 text-[12px] text-white/30">
                                 <MapPin size={12} className="text-orange-500/70 shrink-0" />
-                                Bengaluru, Karnataka, India
+                                Whitefield, Bangalore, India
                             </li>
                             <li>
                                 <a href="mailto:hello@systemmindz.com"
@@ -87,10 +87,10 @@ const Footer = () => {
                                 </a>
                             </li>
                             <li>
-                                <a href="tel:+919876543210"
+                                <a href="tel:+917829730090"
                                    className="flex items-center gap-2.5 text-[12px] text-white/30 hover:text-orange-400 transition-colors">
                                     <Phone size={12} className="text-orange-500/70 shrink-0" />
-                                    +91 98765 43210
+                                    +91 78297 30090
                                 </a>
                             </li>
                         </ul>

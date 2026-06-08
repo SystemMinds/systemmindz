@@ -44,10 +44,19 @@ export default function Navbar() {
     }
   }, [location.pathname])
 
+  const [isScrolled, setIsScrolled] = useState(false)
+
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY
       const delta = currentY - lastScrollY.current
+      
+      if (currentY > 20) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
+
       if (currentY < 10) {
         setVisible(true)
       } else if (delta > 6) {
@@ -69,8 +78,16 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 py-5 sm:py-7 md:py-10 lg:py-12 ${visible ? 'translate-y-0' : '-translate-y-full'}`}
-        style={{ transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+          visible ? 'translate-y-0' : '-translate-y-full'
+        } ${
+          isScrolled
+            ? 'py-4 sm:py-5 backdrop-blur-md border-b ' +
+              (isWhite
+                ? 'bg-black/70 border-white/10 shadow-lg shadow-black/20'
+                : 'bg-white/70 border-black/10 shadow-lg shadow-black/5')
+            : 'py-5 sm:py-7 md:py-10 lg:py-12 bg-transparent border-transparent'
+        }`}
       >
         <div className="w-full flex justify-center px-5 sm:px-10 md:px-16 lg:px-20 xl:px-24">
           <div className="w-full max-w-5xl flex items-center justify-between">
@@ -99,7 +116,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} isScrolled={isScrolled} />
     </>
   )
 }

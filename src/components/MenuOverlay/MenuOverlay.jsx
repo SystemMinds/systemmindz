@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import Polytope from '../Polytope/Polytope';
 
-const MenuOverlay = ({ isOpen, onClose }) => {
+const MenuOverlay = ({ isOpen, onClose, isScrolled }) => {
   const { pathname } = useLocation();
   const [hovered, setHovered] = useState(null);
   const menuVariants = {
@@ -53,17 +53,28 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         >
 
           {/* Header */}
-          <div className="w-full px-5 sm:px-10 lg:pl-32 xl:pl-48 py-5 sm:py-7 md:py-8 flex items-center justify-between xl:pr-32 relative z-20 shrink-0">
-            <Link to="/" onClick={onClose} className="text-xl font-bold text-white select-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              <span>System</span><span className="text-orange-500">Mindz</span>
-            </Link>
-            <button
-              onClick={onClose}
-              className="text-white flex flex-col items-center justify-center p-2"
-              aria-label="Close menu"
-            >
-              <X size={30} strokeWidth={1} />
-            </button>
+          <div
+            className={`w-full flex justify-center transition-all duration-500 ease-in-out px-5 sm:px-10 md:px-16 lg:px-20 xl:px-24 relative z-20 shrink-0 ${
+              isScrolled ? 'py-4 sm:py-5' : 'py-5 sm:py-7 md:py-10 lg:py-12'
+            }`}
+          >
+            <div className="w-full max-w-5xl flex items-center justify-between">
+              <Link
+                to="/"
+                onClick={onClose}
+                className="text-2xl tracking-tight text-white select-none"
+                style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700 }}
+              >
+                <span>System</span><span className="text-orange-500">Mindz</span>
+              </Link>
+              <button
+                onClick={onClose}
+                className="text-white hover:opacity-70 transition-all duration-500 flex items-center justify-center"
+                aria-label="Close menu"
+              >
+                <X size={30} strokeWidth={1.5} />
+              </button>
+            </div>
           </div>
 
           {/* Main Layout */}
@@ -107,7 +118,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                 <div>
                   <h4 className="text-[13px] font-bold text-white mb-4 uppercase tracking-widest">Projects</h4>
                   <ul className="space-y-1.5">
-                    {['Interior design studio', 'Home Security Camera', 'Kemia Honest Skincare', 'Cascade of Lava', 'Air Pro by Molekule', "Tony's Chocolonely"].map(link => (
+                    {['Neural Document Processor', 'Real-Time Fraud Detection', 'Telemedicine Platform', 'Multi-Tenant SaaS ERP', 'EdTech Adaptive Engine', 'Smart Energy Dashboard'].map(link => (
                       <li key={link}>
                         <Link to="/projects" onClick={onClose} className="text-[12px] font-bold text-white/35 hover:text-white transition-all duration-300">{link}</Link>
                       </li>
@@ -132,17 +143,10 @@ const MenuOverlay = ({ isOpen, onClose }) => {
               {/* Locations */}
               <motion.div variants={extraInfoVariants} className="grid grid-cols-2 gap-x-12 relative z-10">
                 <div>
-                  <h4 className="text-[13px] font-bold text-white mb-3 uppercase tracking-widest">Canada</h4>
+                  <h4 className="text-[13px] font-bold text-white mb-3 uppercase tracking-widest">India Office</h4>
                   <div className="text-[12px] font-bold text-white/30 leading-relaxed">
-                    71 South Los Carneros Road, California
-                    <span className="text-white/50 mt-1 block">+51 174 705 812</span>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-[13px] font-bold text-white mb-3 uppercase tracking-widest">Germany</h4>
-                  <div className="text-[12px] font-bold text-white/30 leading-relaxed">
-                    Leehove 40, 2678 MC De Lier, Netherlands
-                    <span className="text-white/50 mt-1 block">+31 174 705 811</span>
+                    Whitefield, Bangalore
+                    <span className="text-white/50 mt-1 block">+91 78297 30090</span>
                   </div>
                 </div>
               </motion.div>

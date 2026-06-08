@@ -238,7 +238,7 @@ export default function Contact() {
                 Reach us instantly — we reply fast.
               </p>
               <div className="space-y-3">
-                <a href="https://wa.me/919713848000"
+                <a href="https://wa.me/917829730090"
                   target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-gray-700 text-[13px] font-medium hover:text-green-500 transition-colors duration-200">
                   <img src="/social/whatsapp.svg" alt="WhatsApp" width={16} height={16} />
@@ -260,7 +260,7 @@ export default function Contact() {
               </p>
               <div className="flex items-start gap-2.5 text-orange-500 text-[13px] font-medium">
                 <MapPin size={14} className="mt-0.5 shrink-0" />
-                Bengaluru, Karnataka, India
+                Whitefield, Bangalore, India
               </div>
             </div>
           </motion.div>

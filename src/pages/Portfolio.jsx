@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Code2, Layers, Zap, Shield, Users, Globe, Award, Clock } from 'lucide-react'
+import { ArrowRight, Code2, Layers, Zap, Shield, Users, Globe, Award, Clock, Server, Smartphone, Cloud } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Polytope from '@components/Polytope/Polytope'
 
@@ -47,21 +47,17 @@ const values = [
 ]
 
 const techStack = [
-  { category: 'Frontend',  items: ['React.js', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
-  { category: 'Backend',   items: ['Spring Boot', 'Node.js', 'Python', 'REST / GraphQL'] },
-  { category: 'Mobile',    items: ['React Native', 'Flutter', 'iOS', 'Android'] },
-  { category: 'Cloud & AI',items: ['AWS', 'Azure', 'OpenAI', 'TensorFlow'] },
+  { category: 'Frontend',  number: '01', icon: <Code2 size={24} />, items: ['React.js', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
+  { category: 'Backend',   number: '02', icon: <Server size={24} />, items: ['Spring Boot', 'Node.js', 'Python', 'REST / GraphQL'] },
+  { category: 'Mobile',    number: '03', icon: <Smartphone size={24} />, items: ['React Native', 'Flutter', 'iOS', 'Android'] },
+  { category: 'Cloud & AI',number: '04', icon: <Cloud size={24} />, items: ['AWS', 'Azure', 'OpenAI', 'TensorFlow'] },
 ]
 
 const timeline = [
-  { year: '2023', title: 'Founded', desc: 'SystemMindz was born with a single mission — build technology that actually solves business problems.' },
-  { year: '2023', title: 'First Enterprise Client', desc: 'Delivered a full-stack CRM platform for our first enterprise client within 3 months.' },
-  { year: '2024', title: 'Team Expansion', desc: 'Grew to a cross-functional team of engineers, designers, and product strategists.' },
-  { year: '2024', title: '18+ Projects Delivered', desc: 'Crossed 18 delivered projects across AI, Web, Mobile, and Cloud domains.' },
-  { year: '2025', title: 'Global Partnerships', desc: 'Established strategic partnerships with technology leaders across India, Europe, and North America.' },
-  { year: '2025', title: 'AI Practice Launched', desc: 'Launched a dedicated AI & Machine Learning practice, delivering intelligent automation solutions for enterprise clients.' },
-  { year: '2026', title: 'Expanding Horizons', desc: 'Scaling our team and capabilities to serve Fortune 500 companies and high-growth startups worldwide.' },
-  { year: '2026', title: 'Product Studio', desc: 'Opened our own product studio — incubating proprietary SaaS products alongside client delivery.' },
+  { year: '2025', title: 'Founded', desc: 'SystemMindz was born with a single mission — build technology that actually solves business problems.' },
+  { year: '2025', title: 'KareerGrowth Launched', desc: 'Got a new product KareerGrowth launched for our company, introducing intelligent talent development solutions.' },
+  { year: '2026', title: 'First Enterprise Client', desc: 'Delivered a full-stack CRM platform for our first enterprise client within 3 months.' },
+  { year: '2026', title: 'Team Expansion', desc: 'Grew to a cross-functional team of engineers, designers, and product strategists to support our growing operations.' },
 ]
 
 export default function AboutUs() {
@@ -115,8 +111,8 @@ export default function AboutUs() {
       </section>
 
       {/* ── Stats ── */}
-      <section data-navtheme="light" className="bg-white min-h-screen flex flex-col justify-between py-20 sm:py-24">
-        <div className="max-w-screen-2xl mx-auto px-5 sm:px-10 md:px-16 lg:px-20 xl:px-24 w-full flex flex-col flex-1 gap-16">
+      <section data-navtheme="light" className="bg-white min-h-screen flex flex-col justify-center py-20 sm:py-24">
+        <div className="max-w-screen-2xl mx-auto px-5 sm:px-10 md:px-16 lg:px-20 xl:px-24 w-full flex flex-col gap-16">
 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8">
@@ -133,7 +129,7 @@ export default function AboutUs() {
             </div>
             <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={2}
               className="max-w-sm text-black/40 text-[13px] sm:text-[14px] leading-relaxed font-light">
-              Since 2023, we&apos;ve been turning ambitious ideas into production-grade digital products. Every number here represents a real project, a real team, and a real outcome.
+              Since 2025, we&apos;ve been turning ambitious ideas into production-grade digital products. Every number here represents a real project, a real team, and a real outcome.
             </motion.p>
           </div>
 
@@ -175,7 +171,7 @@ export default function AboutUs() {
               </motion.h2>
               <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={2}
                 className="text-white/40 text-[14px] sm:text-[15px] leading-relaxed font-light mb-6">
-                SystemMindz was founded in 2023 with a straightforward belief: great software changes businesses.
+                SystemMindz was founded in 2025 with a straightforward belief: great software changes businesses.
                 We started as a small team of full-stack engineers tired of seeing companies settle for mediocre digital products.
               </motion.p>
               <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={3}
@@ -229,17 +225,20 @@ export default function AboutUs() {
             {values.map((v, i) => (
               <motion.div key={i}
                 variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i * 0.12}
-                className={`group p-8 sm:p-10 flex flex-col gap-6 border-black/10 transition-all duration-500 hover:bg-black cursor-default
-                  ${i < 3 ? 'lg:border-r' : ''}
-                  ${i % 2 === 0 ? 'sm:border-r lg:border-r-0' : ''}
-                  ${i < 2 ? 'border-b sm:border-b-0' : ''}
-                  ${i < 2 ? 'sm:border-b lg:border-b-0' : ''}`}>
-                <div className="flex items-start justify-between">
-                  <div className="text-black/20 group-hover:text-orange-500 transition-colors duration-500">{v.icon}</div>
-                  <span className="text-[11px] font-bold text-black/15 group-hover:text-white/20 transition-colors duration-500 tracking-widest">{v.number}</span>
+                className={`group p-8 sm:p-10 border-black/10 transition-all duration-500 hover:bg-black cursor-default hover:shadow-2xl hover:z-10 overflow-hidden
+                  ${i < 3 ? 'border-b' : ''}
+                  ${i % 2 === 0 ? 'sm:border-r' : 'sm:border-r-0'}
+                  ${i < 2 ? 'sm:border-b' : 'sm:border-b-0'}
+                  ${i < 3 ? 'lg:border-r' : 'lg:border-r-0'}
+                  lg:border-b-0`}>
+                <div className="transition-transform duration-500 ease-out group-hover:scale-[1.05] origin-center flex flex-col gap-6 w-full h-full">
+                  <div className="flex items-start justify-between">
+                    <div className="text-orange-500">{v.icon}</div>
+                    <span className="text-[11px] font-bold text-orange-500 tracking-widest">{v.number}</span>
+                  </div>
+                  <h4 className="text-[18px] sm:text-[20px] font-bold text-black group-hover:text-white transition-colors duration-500 leading-tight">{v.title}</h4>
+                  <p className="text-[13px] text-black/50 group-hover:text-white/40 transition-colors duration-500 leading-relaxed font-light">{v.desc}</p>
                 </div>
-                <h4 className="text-[18px] sm:text-[20px] font-bold text-black group-hover:text-white transition-colors duration-500 leading-tight">{v.title}</h4>
-                <p className="text-[13px] text-black/50 group-hover:text-white/40 transition-colors duration-500 leading-relaxed font-light">{v.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -247,7 +246,7 @@ export default function AboutUs() {
       </section>
 
       {/* ── Tech Stack ── */}
-      <section data-navtheme="dark" className="bg-[#0a0a0a] min-h-[60vh] flex flex-col justify-center py-20 sm:py-24">
+      <section data-navtheme="dark" className="bg-[#0a0a0a] min-h-screen flex flex-col justify-center py-20 sm:py-24">
         <div className="max-w-screen-2xl mx-auto px-5 sm:px-10 md:px-16 lg:px-20 xl:px-24 w-full">
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-14 sm:mb-16">
@@ -268,16 +267,27 @@ export default function AboutUs() {
             {techStack.map((col, i) => (
               <motion.div key={i}
                 variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i * 0.1}
-                className={`p-8 sm:p-10 border-white/[0.08] ${i < 3 ? 'lg:border-r' : ''} ${i % 2 === 0 ? 'sm:border-r lg:border-r-0' : ''} ${i < 2 ? 'border-b sm:border-b-0' : ''}`}>
-                <h4 className="text-[10px] uppercase tracking-[0.25em] font-bold text-orange-500 mb-6">{col.category}</h4>
-                <ul className="space-y-3">
-                  {col.items.map((item, j) => (
-                    <li key={j} className="flex items-center gap-3 text-[14px] font-light text-white/50 hover:text-white transition-colors duration-200">
-                      <span className="w-1 h-1 rounded-full bg-orange-500/60 shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                className={`group p-8 sm:p-10 border-white/[0.08] transition-all duration-500 hover:bg-white/[0.03] cursor-default hover:shadow-2xl hover:z-10 overflow-hidden
+                  ${i < 3 ? 'border-b' : ''}
+                  ${i % 2 === 0 ? 'sm:border-r' : 'sm:border-r-0'}
+                  ${i < 2 ? 'sm:border-b' : 'sm:border-b-0'}
+                  ${i < 3 ? 'lg:border-r' : 'lg:border-r-0'}
+                  lg:border-b-0`}>
+                <div className="transition-transform duration-500 ease-out group-hover:scale-[1.05] origin-center flex flex-col w-full h-full">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="text-orange-500">{col.icon}</div>
+                    <span className="text-[11px] font-bold text-orange-500 tracking-widest">{col.number}</span>
+                  </div>
+                  <h4 className="text-[15px] sm:text-[17px] font-bold text-white mb-6 uppercase tracking-[0.2em]">{col.category}</h4>
+                  <ul className="space-y-3">
+                    {col.items.map((item, j) => (
+                      <li key={j} className="flex items-center gap-3 text-[14px] font-light text-white/50 hover:text-white transition-colors duration-200">
+                        <span className="w-1 h-1 rounded-full bg-orange-500/60 shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
             ))}
           </div>

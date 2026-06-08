@@ -1,0 +1,9 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bell Clapper -->
+  <path d="M 42,75 A 8,8 0 0 0 58,75 Z" fill="#4285F4" />
+  <!-- Bell Body -->
+  <path d="M 50,15 C 38,15 32,25 32,45 V 60 L 24,68 V 70 H 76 V 68 L 68,60 V 45 C 68,25 62,15 50,15 Z" fill="#4285F4" />
+  <!-- Red Alert Badge at Top-Right -->
+  <circle cx="68" cy="28" r="14" fill="#EA4335" />
+  <circle cx="68" cy="28" r="11" fill="#EA4335" stroke="#FFFFFF" stroke-width="2.5" />
+</svg>

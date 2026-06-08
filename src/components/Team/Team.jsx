@@ -1,33 +1,53 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Instagram, Facebook, Linkedin, Github } from 'lucide-react';
+import { ArrowRight, Instagram, Facebook, Linkedin, Github, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Team = () => {
     const teamMembers = [
         {
-            url: "https://miller.bslthemes.com/ashley-demo/img/faces/1.jpg",
-            name: "Anna Oldman",
-            role: "Art Director",
-            socials: [<Instagram size={14} />, <Facebook size={14} />, <Linkedin size={14} />, <Github size={14} />]
+            url: "/teams/Mallikarjun.png",
+            name: "Mallikarjun Danduba",
+            role: "Co-Founder & Chief Operating Officer (COO)",
+            socials: [
+                { icon: <Instagram size={14} />, url: "https://www.instagram.com/mallikarjun_danduba" },
+                { icon: <Linkedin size={14} />, url: "https://www.linkedin.com/in/mallikarjuna2002/" },
+                { icon: <Globe size={14} />, url: "https://mallikarjundanduba.netlify.app/" }
+            ]
         },
         {
             url: "https://miller.bslthemes.com/ashley-demo/img/faces/2.jpg",
             name: "John Doe",
             role: "Fullstack Developer",
-            socials: [<Instagram size={14} />, <Facebook size={14} />, <Linkedin size={14} />, <Github size={14} />]
+            socials: [
+                { icon: <Instagram size={14} />, url: "https://instagram.com" },
+                { icon: <Facebook size={14} />, url: "https://facebook.com" },
+                { icon: <Linkedin size={14} />, url: "https://linkedin.com" },
+                { icon: <Github size={14} />, url: "https://github.com" }
+            ]
         },
         {
-            url: "https://miller.bslthemes.com/ashley-demo/img/faces/3.jpg",
-            name: "Jane Smith",
-            role: "UI/UX Designer",
-            socials: [<Instagram size={14} />, <Facebook size={14} />, <Linkedin size={14} />, <Github size={14} />]
+            url: "/teams/Sharan1.jpg",
+            name: "Sharan M Neeli",
+            role: "Founder & CEO",
+            socials: [
+                { icon: <Instagram size={14} />, url: "https://www.instagram.com/sharan._09/" },
+                { icon: <Linkedin size={14} />, url: "https://www.linkedin.com/in/sharanm09/" },
+                { icon: <Globe size={14} />, url: "https://sharan.systemmindz.com/" }
+            ],
+            objectPosition: "center 20%",
+            scale: 1.15
         },
         {
             url: "https://miller.bslthemes.com/ashley-demo/img/faces/4.jpg",
             name: "Mike Ross",
             role: "Project Manager",
-            socials: [<Instagram size={14} />, <Facebook size={14} />, <Linkedin size={14} />, <Github size={14} />]
+            socials: [
+                { icon: <Instagram size={14} />, url: "https://instagram.com" },
+                { icon: <Facebook size={14} />, url: "https://facebook.com" },
+                { icon: <Linkedin size={14} />, url: "https://linkedin.com" },
+                { icon: <Github size={14} />, url: "https://github.com" }
+            ]
         }
     ];
 
@@ -99,35 +119,50 @@ const Team = () => {
                     </div>
 
                     {/* Right Image Grid */}
-                    <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 items-start relative">
+                    <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 items-start relative max-w-[550px] lg:max-w-[520px] mx-auto lg:ml-0">
                         {/* Column 1 */}
                         <div className="space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10">
                             {[teamMembers[0], teamMembers[1]].map((member, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 1, delay: 0.2 + (i * 0.2) }}
-                                    className="group relative aspect-[1/1.1] bg-gray-100 overflow-hidden cursor-pointer"
-                                >
-                                    <img src={member.url} alt={member.name} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
-
-                                    <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-4 sm:p-6 pb-8 sm:pb-12">
-                                        <h3 className="text-white text-[18px] sm:text-[22px] md:text-[24px] font-bold mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{member.name}</h3>
-                                        <p className="text-white/40 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] mb-4 sm:mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">{member.role}</p>
-
-                                        <div className="flex gap-3 sm:gap-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-200">
-                                            {member.socials.map((icon, idx) => (
-                                                <a key={idx} href="/contact" className="text-white hover:text-orange-500 transition-colors">
-                                                    {icon}
-                                                </a>
-                                            ))}
+                                <div key={i} className="relative">
+                                    {i === 0 && (
+                                        <div className="absolute -top-6 sm:-top-8 left-0 text-[11px] tracking-[0.05em] text-black/40 flex items-center gap-2 z-10 w-max">
+                                            <span className="text-orange-500 font-bold text-[16px] leading-none">*</span> Co-Founder & Chief Operating Officer (COO)
                                         </div>
-                                    </div>
+                                    )}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 50 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 1, delay: 0.2 + (i * 0.2) }}
+                                        className="group relative aspect-[1/1.1] bg-gray-100 overflow-hidden cursor-pointer"
+                                    >
+                                        <img 
+                                            src={member.url} 
+                                            alt={member.name} 
+                                            className="w-full h-full object-cover transition-all duration-700 [transform:scale(var(--img-scale,1))] group-hover:[--img-scale:var(--hover-scale,1.1)]" 
+                                            style={{ 
+                                                objectPosition: member.objectPosition || 'center',
+                                                '--img-scale': member.scale || 1,
+                                                '--hover-scale': (member.scale || 1) * 1.1
+                                            }} 
+                                        />
 
-                                    <div className="absolute bottom-0 left-0 w-0 h-[4px] bg-orange-500 group-hover:w-full transition-all duration-500 z-20" />
-                                </motion.div>
+                                        <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-4 sm:p-6 pb-8 sm:pb-12">
+                                            <h3 className="text-white text-[18px] sm:text-[22px] md:text-[24px] font-bold mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{member.name}</h3>
+                                            <p className="text-white/40 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] mb-4 sm:mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">{member.role}</p>
+
+                                            <div className="flex gap-3 sm:gap-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-200">
+                                                {member.socials.map((social, idx) => (
+                                                    <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-500 transition-colors">
+                                                        {social.icon}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className="absolute bottom-0 left-0 w-0 h-[4px] bg-orange-500 group-hover:w-full transition-all duration-500 z-20" />
+                                    </motion.div>
+                                </div>
                             ))}
                         </div>
 
@@ -137,7 +172,7 @@ const Team = () => {
                                 <div key={i} className="relative">
                                     {i === 0 && (
                                         <div className="absolute -top-6 sm:-top-8 left-0 text-[11px] tracking-[0.05em] text-black/40 flex items-center gap-2 z-10 w-max">
-                                            <span className="text-orange-500 font-bold text-[16px] leading-none">*</span> The founders of our agency
+                                            <span className="text-orange-500 font-bold text-[16px] leading-none">*</span> Founder & CEO
                                         </div>
                                     )}
                                     <motion.div
@@ -147,17 +182,26 @@ const Team = () => {
                                         transition={{ duration: 1, delay: 0.3 + (i * 0.2) }}
                                         className="group relative aspect-[1/1.1] bg-gray-100 overflow-hidden cursor-pointer"
                                     >
-                                        <img src={member.url} alt={member.name} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
+                                        <img 
+                                            src={member.url} 
+                                            alt={member.name} 
+                                            className="w-full h-full object-cover transition-all duration-700 [transform:scale(var(--img-scale,1))] group-hover:[--img-scale:var(--hover-scale,1.1)]" 
+                                            style={{ 
+                                                objectPosition: member.objectPosition || 'center',
+                                                '--img-scale': member.scale || 1,
+                                                '--hover-scale': (member.scale || 1) * 1.1
+                                            }} 
+                                        />
 
                                         <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-4 sm:p-6 pb-8 sm:pb-12">
                                             <h3 className="text-white text-[18px] sm:text-[22px] md:text-[24px] font-bold mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{member.name}</h3>
                                             <p className="text-white/40 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] mb-4 sm:mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">{member.role}</p>
 
                                             <div className="flex gap-3 sm:gap-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-200">
-                                                {member.socials.map((icon, idx) => (
-                                                    <div key={idx} className="text-white hover:text-orange-500 transition-colors">
-                                                        {icon}
-                                                    </div>
+                                                {member.socials.map((social, idx) => (
+                                                    <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-500 transition-colors">
+                                                        {social.icon}
+                                                    </a>
                                                 ))}
                                             </div>
                                         </div>

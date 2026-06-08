@@ -7,7 +7,7 @@ const publications = [
     {
         id: 1,
         category: "TECHNOLOGY",
-        date: "MAY 24 2023",
+        date: "MAY 24 2025",
         title: "How to Become a Graphic Designer in 10 Simple Steps",
         excerpt: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ejus sequi commodi dignissimos optio, beatae, eos necessitatibus nisi. Nam cupidita...",
         image: "https://miller.bslthemes.com/ashley-demo/img/blog/1.jpg"
@@ -15,7 +15,7 @@ const publications = [
     {
         id: 2,
         category: "TECHNOLOGY",
-        date: "MAY 24 2023",
+        date: "MAY 24 2025",
         title: "16 Best Graphic Design for Online and Offline Courses",
         excerpt: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ejus sequi commodi dignissimos optio, beatae, eos necessitatibus nisi. Nam cupidita...",
         image: "https://miller.bslthemes.com/ashley-demo/img/blog/2.jpg"
