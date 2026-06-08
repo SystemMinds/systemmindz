@@ -8,7 +8,7 @@ const Team = () => {
         {
             url: "/teams/Mallikarjun.png",
             name: "Mallikarjun Danduba",
-            role: "Co-Founder & Chief Operating Officer (COO)",
+            role: "Co-Founder & COO",
             socials: [
                 { icon: <Instagram size={14} />, url: "https://www.instagram.com/mallikarjun_danduba" },
                 { icon: <Linkedin size={14} />, url: "https://www.linkedin.com/in/mallikarjuna2002/" },
@@ -16,15 +16,16 @@ const Team = () => {
             ]
         },
         {
-            url: "https://miller.bslthemes.com/ashley-demo/img/faces/2.jpg",
-            name: "John Doe",
+            url: "/teams/Vidya.png",
+            name: "Vidya Manjunath",
             role: "Fullstack Developer",
             socials: [
-                { icon: <Instagram size={14} />, url: "https://instagram.com" },
-                { icon: <Facebook size={14} />, url: "https://facebook.com" },
-                { icon: <Linkedin size={14} />, url: "https://linkedin.com" },
-                { icon: <Github size={14} />, url: "https://github.com" }
-            ]
+                { icon: <Instagram size={14} />, url: "https://www.instagram.com/vid_yamanjunath/" },
+                { icon: <Linkedin size={14} />, url: "https://www.linkedin.com/in/vidya-manjunath/" },
+                { icon: <Github size={14} />, url: "https://github.com/VidyaManjunath-17" }
+            ],
+            objectPosition: "center -10%",
+            scale: 1.4
         },
         {
             url: "/teams/Sharan1.jpg",
@@ -126,7 +127,7 @@ const Team = () => {
                                 <div key={i} className="relative">
                                     {i === 0 && (
                                         <div className="absolute -top-6 sm:-top-8 left-0 text-[11px] tracking-[0.05em] text-black/40 flex items-center gap-2 z-10 w-max">
-                                            <span className="text-orange-500 font-bold text-[16px] leading-none">*</span> Co-Founder & Chief Operating Officer (COO)
+                                            <span className="text-orange-500 font-bold text-[16px] leading-none">*</span> Co-Founder & COO
                                         </div>
                                     )}
                                     <motion.div
@@ -136,15 +137,15 @@ const Team = () => {
                                         transition={{ duration: 1, delay: 0.2 + (i * 0.2) }}
                                         className="group relative aspect-[1/1.1] bg-gray-100 overflow-hidden cursor-pointer"
                                     >
-                                        <img 
-                                            src={member.url} 
-                                            alt={member.name} 
-                                            className="w-full h-full object-cover transition-all duration-700 [transform:scale(var(--img-scale,1))] group-hover:[--img-scale:var(--hover-scale,1.1)]" 
-                                            style={{ 
+                                        <img
+                                            src={member.url}
+                                            alt={member.name}
+                                            className="w-full h-full object-cover transition-all duration-700 [transform:scale(var(--img-scale,1))] group-hover:[--img-scale:var(--hover-scale,1.1)]"
+                                            style={{
                                                 objectPosition: member.objectPosition || 'center',
                                                 '--img-scale': member.scale || 1,
                                                 '--hover-scale': (member.scale || 1) * 1.1
-                                            }} 
+                                            }}
                                         />
 
                                         <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-4 sm:p-6 pb-8 sm:pb-12">
@@ -182,15 +183,15 @@ const Team = () => {
                                         transition={{ duration: 1, delay: 0.3 + (i * 0.2) }}
                                         className="group relative aspect-[1/1.1] bg-gray-100 overflow-hidden cursor-pointer"
                                     >
-                                        <img 
-                                            src={member.url} 
-                                            alt={member.name} 
-                                            className="w-full h-full object-cover transition-all duration-700 [transform:scale(var(--img-scale,1))] group-hover:[--img-scale:var(--hover-scale,1.1)]" 
-                                            style={{ 
+                                        <img
+                                            src={member.url}
+                                            alt={member.name}
+                                            className="w-full h-full object-cover transition-all duration-700 [transform:scale(var(--img-scale,1))] group-hover:[--img-scale:var(--hover-scale,1.1)]"
+                                            style={{
                                                 objectPosition: member.objectPosition || 'center',
                                                 '--img-scale': member.scale || 1,
                                                 '--hover-scale': (member.scale || 1) * 1.1
-                                            }} 
+                                            }}
                                         />
 
                                         <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-4 sm:p-6 pb-8 sm:pb-12">
