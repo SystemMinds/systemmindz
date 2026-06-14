@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # ============================================================
-#  Push all KareerGrowth app repos to GitHub
+#  Push all KareerGrowth app repos to GitHub (main only)
+#
+#  Local main is the source of truth — overwrites origin/main
+#  when histories differ (git push --force).
 #
 #  Repos (each has its own .git):
 #    AdminFrontend, AdminBackend,
@@ -10,7 +13,6 @@
 #
 #  Usage:
 #    ./push-all.sh
-#    ./push-all.sh --branch indeed
 #    ./push-all.sh --remote origin
 #    ./push-all.sh --dry-run
 #    ./push-all.sh --only CandidateBackend,StreamingAi
@@ -22,7 +24,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 REMOTE="${REMOTE:-origin}"
-BRANCH=""
+BRANCH="main"
 DRY_RUN=0
 STATUS_ONLY=0
 ONLY_FILTER=""
@@ -47,17 +49,18 @@ usage() {
   cat <<'EOF'
 Usage: ./push-all.sh [options]
 
+Force-pushes local main to origin/main in each repo.
+Remote main is replaced with whatever is on your local main.
+
 Options:
-  --branch NAME    Push this branch (default: current branch in each repo)
   --remote NAME    Git remote (default: origin)
   --only LIST      Comma-separated repo folder names to push
   --dry-run        Show what would be pushed, do not push
-  --status         Show branch/ahead/behind/dirty status only
+  --status         Show main vs origin/main status only
   -h, --help       Show this help
 
 Examples:
   ./push-all.sh
-  ./push-all.sh --branch indeed
   ./push-all.sh --only CandidateBackend,CandidateFrontend
   ./push-all.sh --dry-run
 EOF
@@ -65,7 +68,10 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --branch)   BRANCH="${2:-}"; shift 2 ;;
+    --branch)
+      warn "--branch is ignored; this script always pushes main"
+      shift 2
+      ;;
     --remote)   REMOTE="${2:-}"; shift 2 ;;
     --only)     ONLY_FILTER="${2:-}"; shift 2 ;;
     --dry-run)  DRY_RUN=1; shift ;;
@@ -87,13 +93,45 @@ should_push_repo() {
   return 1
 }
 
-repo_branch() {
+fetch_remote_main() {
   local dir="$1"
-  if [[ -n "$BRANCH" ]]; then
-    echo "$BRANCH"
-  else
-    git -C "$dir" branch --show-current 2>/dev/null || echo ""
+  git -C "$dir" fetch "$REMOTE" "$BRANCH" --quiet 2>/dev/null || true
+}
+
+repo_sync_state() {
+  local dir="$1"
+  local local_sha remote_sha ahead=0 behind=0 diverged=0
+
+  local_sha="$(git -C "$dir" rev-parse "$BRANCH" 2>/dev/null || echo "")"
+  if [[ -z "$local_sha" ]]; then
+    echo "missing_local"
+    return
   fi
+
+  if git -C "$dir" rev-parse --verify "${REMOTE}/${BRANCH}" &>/dev/null; then
+    remote_sha="$(git -C "$dir" rev-parse "${REMOTE}/${BRANCH}")"
+    if [[ "$local_sha" == "$remote_sha" ]]; then
+      echo "synced"
+      return
+    fi
+    if git -C "$dir" merge-base --is-ancestor "$remote_sha" "$local_sha" 2>/dev/null; then
+      ahead="$(git -C "$dir" rev-list --count "${remote_sha}..${local_sha}" 2>/dev/null || echo 0)"
+      echo "ahead:$ahead"
+      return
+    fi
+    if git -C "$dir" merge-base --is-ancestor "$local_sha" "$remote_sha" 2>/dev/null; then
+      behind="$(git -C "$dir" rev-list --count "${local_sha}..${remote_sha}" 2>/dev/null || echo 0)"
+      echo "behind:$behind"
+      return
+    fi
+    diverged=1
+    ahead="$(git -C "$dir" rev-list --count "${remote_sha}..${local_sha}" 2>/dev/null || echo 0)"
+    behind="$(git -C "$dir" rev-list --count "${local_sha}..${remote_sha}" 2>/dev/null || echo 0)"
+    echo "diverged:$ahead:$behind"
+    return
+  fi
+
+  echo "no_remote"
 }
 
 print_repo_status() {
@@ -105,27 +143,31 @@ print_repo_status() {
     return 1
   fi
 
-  local branch
-  branch="$(repo_branch "$dir")"
-  if [[ -z "$branch" ]]; then
-    warn "$name — detached HEAD or no branch (skip)"
+  if ! git -C "$dir" rev-parse --verify "$BRANCH" &>/dev/null; then
+    warn "$name — local branch '$BRANCH' does not exist (skip)"
     return 1
   fi
+
+  fetch_remote_main "$dir"
 
   local dirty=""
   if [[ -n "$(git -C "$dir" status --porcelain 2>/dev/null)" ]]; then
     dirty=" dirty"
   fi
 
-  local ahead behind tracking
-  tracking="$(git -C "$dir" rev-parse --abbrev-ref "${branch}@{upstream}" 2>/dev/null || echo "")"
-  if [[ -n "$tracking" ]]; then
-    ahead="$(git -C "$dir" rev-list --count "${tracking}..${branch}" 2>/dev/null || echo 0)"
-    behind="$(git -C "$dir" rev-list --count "${branch}..${tracking}" 2>/dev/null || echo 0)"
-    echo "  $name — branch=$branch remote=$REMOTE ahead=$ahead behind=$behind${dirty}"
-  else
-    echo "  $name — branch=$branch (no upstream for $branch)${dirty}"
-  fi
+  local state
+  state="$(repo_sync_state "$dir")"
+  case "$state" in
+    synced)       echo "  $name — $BRANCH synced with $REMOTE/$BRANCH${dirty}" ;;
+    ahead:*)      echo "  $name — $BRANCH ahead of $REMOTE/$BRANCH by ${state#ahead:}${dirty}" ;;
+    behind:*)     echo "  $name — $BRANCH behind $REMOTE/$BRANCH by ${state#behind:} (will overwrite on push)${dirty}" ;;
+    diverged:*)
+      IFS=':' read -r _ a b <<< "$state"
+      echo "  $name — $BRANCH diverged (ahead $a, behind $b) — local wins on push${dirty}"
+      ;;
+    no_remote)    echo "  $name — $BRANCH has no $REMOTE/$BRANCH yet (will create)${dirty}" ;;
+    *)            echo "  $name — $BRANCH status unknown${dirty}" ;;
+  esac
 }
 
 push_repo() {
@@ -141,44 +183,51 @@ push_repo() {
     return 1
   fi
 
-  local branch
-  branch="$(repo_branch "$dir")"
-  if [[ -z "$branch" ]]; then
-    warn "$name — no current branch (skip)"
+  if ! git -C "$dir" rev-parse --verify "$BRANCH" &>/dev/null; then
+    err "$name — branch '$BRANCH' does not exist locally"
     return 1
   fi
 
   if [[ -n "$(git -C "$dir" status --porcelain 2>/dev/null)" ]]; then
-    warn "$name — uncommitted changes (pushing existing commits only)"
+    warn "$name — uncommitted changes (only committed local main is pushed)"
   fi
 
-  local upstream="${REMOTE}/${branch}"
-  if ! git -C "$dir" rev-parse --verify "$branch" &>/dev/null; then
-    err "$name — branch '$branch' does not exist locally"
-    return 1
-  fi
+  fetch_remote_main "$dir"
 
-  local ahead=0
-  if git -C "$dir" rev-parse --verify "@{upstream}" &>/dev/null 2>&1; then
-    ahead="$(git -C "$dir" rev-list --count "@{upstream}..HEAD" 2>/dev/null || echo 0)"
-  else
-    ahead="$(git -C "$dir" rev-list --count "$branch" 2>/dev/null || echo 0)"
-  fi
+  local upstream="${REMOTE}/${BRANCH}"
+  local state
+  state="$(repo_sync_state "$dir")"
 
-  if [[ "$ahead" -eq 0 ]] && git -C "$dir" rev-parse --verify "@{upstream}" &>/dev/null 2>&1; then
-    ok "$name — already up to date ($branch -> $upstream)"
-    return 0
-  fi
-
-  log "$name — pushing $branch -> $upstream ($ahead commit(s) ahead)"
+  case "$state" in
+    synced)
+      ok "$name — already up to date ($BRANCH == $upstream)"
+      return 0
+      ;;
+    ahead:*)
+      log "$name — pushing $BRANCH -> $upstream (${state#ahead:} commit(s) ahead)"
+      ;;
+    behind:*)
+      warn "$name — remote is ${state#behind:} commit(s) ahead; overwriting with local $BRANCH"
+      ;;
+    diverged:*)
+      IFS=':' read -r _ a b <<< "$state"
+      warn "$name — histories diverged (local ahead $a, remote ahead $b); overwriting with local $BRANCH"
+      ;;
+    no_remote)
+      log "$name — creating $upstream from local $BRANCH"
+      ;;
+    *)
+      log "$name — force-pushing local $BRANCH -> $upstream"
+      ;;
+  esac
 
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    ok "$name — dry-run (skipped actual push)"
+    ok "$name — dry-run (would force-push $BRANCH -> $upstream)"
     return 0
   fi
 
-  if git -C "$dir" push -u "$REMOTE" "$branch"; then
-    ok "$name — pushed"
+  if git -C "$dir" push --force -u "$REMOTE" "$BRANCH"; then
+    ok "$name — force-pushed local $BRANCH to $upstream"
     return 0
   fi
 
@@ -189,11 +238,11 @@ push_repo() {
 main() {
   echo ""
   echo "============================================================"
-  echo "  Push all KareerGrowth repos"
+  echo "  Push all KareerGrowth repos (local main -> origin/main)"
   echo "============================================================"
   echo "  Root:   $ROOT_DIR"
   echo "  Remote: $REMOTE"
-  [[ -n "$BRANCH" ]] && echo "  Branch: $BRANCH (forced)" || echo "  Branch: current branch per repo"
+  echo "  Branch: $BRANCH (force — local wins)"
   [[ "$DRY_RUN" -eq 1 ]] && echo "  Mode:   dry-run"
   [[ -n "$ONLY_FILTER" ]] && echo "  Only:   $ONLY_FILTER"
   echo ""
@@ -210,7 +259,6 @@ main() {
 
   local ok_count=0
   local fail_count=0
-  local skip_count=0
   local name
 
   for name in "${REPOS[@]}"; do
