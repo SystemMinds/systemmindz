@@ -24,7 +24,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 REMOTE="${REMOTE:-origin}"
-BRANCH="main"
+BRANCH="main1"
 DRY_RUN=0
 STATUS_ONLY=0
 ONLY_FILTER=""
