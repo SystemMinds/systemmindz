@@ -3,10 +3,64 @@
 # ==============================================================================
 # Start all frontend/backend services with HTTP only (no SSL certificates).
 # LAN IP is detected automatically (override with API_HOST=x.x.x.x if needed).
-# Works with localhost and dynamic LAN IP via shared/resolveDynamicApiUrl.js.
 # ==============================================================================
 
 BASE_DIR=$(cd "$(dirname "$0")" && pwd)
+
+PORTS=(4000 4001 4002 4003 8001 8002 8003 9000)
+
+log() {
+    printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
+}
+
+# Only kill real process IDs — never 0/1 or non-numeric values.
+safe_kill_pid() {
+    local pid="$1"
+    local label="${2:-process}"
+    case "$pid" in
+        ''|*[!0-9]*) return 0 ;;
+    esac
+    if [ "$pid" -le 1 ] 2>/dev/null; then
+        log "Skipping invalid $label pid: $pid"
+        return 0
+    fi
+    if kill -0 "$pid" 2>/dev/null; then
+        log "Killing old $label (pid $pid)"
+        kill -9 "$pid" 2>/dev/null || true
+    fi
+}
+
+kill_port() {
+    local port="$1"
+    local pids
+    pids=$(lsof -ti tcp:"$port" -sTCP:LISTEN 2>/dev/null || lsof -ti :"$port" 2>/dev/null || true)
+    if [ -n "$pids" ]; then
+        log "Killing port $port (pids: $pids)"
+        kill -9 $pids 2>/dev/null || true
+    fi
+}
+
+kill_all_service_ports() {
+    log "Stopping any existing services on frontend/API ports..."
+    for pidfile in superadmin_frontend.pid admin_frontend.pid candidatetest_frontend.pid candidate_frontend.pid superadmin_backend.pid admin_backend.pid candidate_backend.pid streaming_ai.pid; do
+        if [ -f "$BASE_DIR/$pidfile" ]; then
+            old_pid=$(tr -d '[:space:]' < "$BASE_DIR/$pidfile")
+            safe_kill_pid "$old_pid" "$pidfile"
+            rm -f "$BASE_DIR/$pidfile"
+        fi
+    done
+    for port in "${PORTS[@]}"; do
+        kill_port "$port"
+    done
+    sleep 2
+    for port in "${PORTS[@]}"; do
+        if lsof -ti :"$port" >/dev/null 2>&1; then
+            log "Port $port still in use — force killing again"
+            kill_port "$port"
+        fi
+    done
+    sleep 1
+}
 
 detect_lan_ip() {
   if [ -n "${API_HOST:-}" ] && [ "${API_HOST}" != "auto" ]; then
@@ -30,36 +84,7 @@ echo "Detected LAN IP: $LAN_IP (override with API_HOST=x.x.x.x)"
 
 COMMON_CORS="${HTTP_BASE}:4000,http://127.0.0.1:4000,http://localhost:4000,${HTTP_BASE}:4001,http://127.0.0.1:4001,http://localhost:4001,${HTTP_BASE}:4002,http://127.0.0.1:4002,http://localhost:4002,${HTTP_BASE}:4003,http://127.0.0.1:4003,http://localhost:4003"
 
-echo "Stopping any existing services on frontend/API ports..."
-for port in 4000 4001 4002 4003 8001 8002 8003 9000; do
-    pids=$(lsof -ti :$port 2>/dev/null)
-    for pid in $pids; do
-        safe_kill_pid "$pid" "service on port $port"
-    done
-done
-sleep 1
-
-
-log() {
-    printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
-}
-
-# Only kill real process IDs — never 0/1 or non-numeric values (kill -9 0 kills the whole shell group).
-safe_kill_pid() {
-    local pid="$1"
-    local label="${2:-process}"
-    case "$pid" in
-        ''|*[!0-9]*) return 0 ;;
-    esac
-    if [ "$pid" -le 1 ] 2>/dev/null; then
-        log "Skipping invalid $label pid: $pid"
-        return 0
-    fi
-    if kill -0 "$pid" 2>/dev/null; then
-        log "Killing old $label (pid $pid)"
-        kill -9 "$pid" 2>/dev/null || true
-    fi
-}
+kill_all_service_ports
 
 log_header() {
     local file="$1"
@@ -69,15 +94,6 @@ log_header() {
         echo "========== $(date '+%Y-%m-%d %H:%M:%S') — $name =========="
     } >>"$file"
 }
-
-# Clean up old pids and logs
-for pidfile in superadmin_frontend.pid admin_frontend.pid candidatetest_frontend.pid candidate_frontend.pid superadmin_backend.pid admin_backend.pid candidate_backend.pid streaming_ai.pid; do
-    if [ -f "$BASE_DIR/$pidfile" ]; then
-        old_pid=$(tr -d '[:space:]' < "$BASE_DIR/$pidfile")
-        safe_kill_pid "$old_pid" "$pidfile"
-        rm -f "$BASE_DIR/$pidfile"
-    fi
-done
 
 # Truncate old log files
 > "$BASE_DIR/superadmin_frontend.log"
