@@ -129,8 +129,8 @@ log_header "$BASE_DIR/admin_frontend.log" "AdminFrontend"
     VITE_AUTH_API_URL="/auth-api" \
     VITE_ADMIN_API_URL="/admin-api" \
     VITE_API_BASE_URL="/admin-api" \
-    VITE_AI_SERVICE_URL="/ai-service" \
-    VITE_AI_BACKEND_URL="/ai-service" \
+    VITE_AI_SERVICE_URL="/admin-api/ai-service" \
+    VITE_AI_BACKEND_URL="/admin-api/ai-service" \
     VITE_CANDIDATE_API_URL="/candidate-api" \
     DEV_ADMIN_API_TARGET="http://localhost:8002" \
     DEV_AUTH_API_TARGET="http://localhost:8001" \
