@@ -1,6 +1,7 @@
 require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { sendEmail } = require('./emailService');
 
 const app = express();
@@ -131,6 +132,14 @@ app.post('/api/contact', async (req, res) => {
     }
 
     return res.json({ sent, error: sent ? undefined : (r1.error || r2.error) });
+});
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// SPA Routing: Redirect all other requests to index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(PORT, () => {
