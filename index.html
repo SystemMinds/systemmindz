@@ -44,6 +44,33 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- ===== Growth OS - Conversion Engine (agent #15) =====
+         Measures where visitors are lost: the funnel, scroll depth, rage
+         clicks, which form field loses people, and conversion rate per
+         traffic source. It also serves A/B test variants, which is why it
+         loads in <head> rather than at the end of <body> - a variant applied
+         after the page paints is a visible flicker, and the flicker only ever
+         happens to the treatment half, which biases the test.
+
+         Cookieless and first-party: the visitor id lives in this site's own
+         localStorage, no IP is stored, and Do Not Track / Global Privacy
+         Control are honoured, so no consent banner is required to run it.
+
+         The URL comes from VITE_GROWTH_TRACKER_URL in .env. It is injected
+         rather than written as a plain <script src> so that a build with the
+         variable unset simply does nothing, instead of requesting a literal
+         "%VITE_GROWTH_TRACKER_URL%" and logging a 404 on every page. -->
+    <script>
+      (function () {
+        var url = '%VITE_GROWTH_TRACKER_URL%'
+        if (!url || url.charAt(0) === '%') return
+        var s = document.createElement('script')
+        s.src = url
+        s.defer = true
+        document.head.appendChild(s)
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
